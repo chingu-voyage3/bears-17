@@ -5,3 +5,4 @@
 Thanks to all the contributors for their time and effort:
 
 - [Zsolt Meszaros](https://github.com/zsoltime)
+- [Paulina Chalubinska](https://github.com/pchalubinska)
