@@ -1,0 +1,17 @@
+{
+  "name": "bears-17",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chingu-voyage3/bears-17.git"
+  },
+  "author": "Chingu Voyage 3 Bears 17",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chingu-voyage3/bears-17/issues"
+  },
+  "homepage": "https://github.com/chingu-voyage3/bears-17#readme"
+}
