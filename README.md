@@ -114,17 +114,17 @@ Run unit tests with Jest
 npm test
 ```
 
-## Git Branches
+## Git Branches
 
-### `master` branch
+#### `master` branch
 
 The `master` branch is the main branch where the source code always reflects the current production release and is only updated from the `development` branch.
 
-### `development` branch
+#### `development` branch
 
 The `development` branch is the "integration" branch where the source code always reflects a state with the latest delivered development changes for the next release.
 
-### Developer branches
+#### Developer branches
 
 Developer branches are "feature", "bugfix" and "refactor" branches we merge back to the `development` branch.
 
