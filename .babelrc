@@ -1,0 +1,12 @@
+{
+  "env": {
+    "test": {
+      "presets": [ "react", "env" ]
+    }
+  },
+  "presets": [
+    "react",
+    [ "env", { "modules": false } ]
+  ],
+  "plugins": [ "react-hot-loader/babel" ]
+}
