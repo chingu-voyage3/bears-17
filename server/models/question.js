@@ -1,13 +1,14 @@
 const mongoose = require('mongoose');
 
-let questionSchema = mongoose.Schema({
+const questionSchema = mongoose.Schema({
+  title: String,
   question: String,
-  user: {default: "Heyjp", type: String}
+  user: {default: "Heyjp", type: String }
 }, {
-    timestamps: true
+  timestamps: true,
 });
 
 
-let questionModel = mongoose.model('Question', questionSchema);
+const questionModel = mongoose.model('Question', questionSchema);
 
 module.exports = questionModel;

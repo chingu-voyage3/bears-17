@@ -13,9 +13,10 @@ exports.addQuestion = async (ctx) => {
     }
     // saved
     return true;
-  })
+  });
 
-  return ctx.body = "New Question Added";
+  ctx.body = 'New Question Added';
+  return ctx.body;
 };
 
 exports.getQuestions = async (ctx) => {
