@@ -121,7 +121,7 @@ if (isDev) {
     overlay: true,
     port: 3002,
     proxy: {
-      '/api': 'http://localhost:3000',
+      '/api/**': 'http://localhost:3000',
     },
     stats: {
       cached: false,
@@ -137,7 +137,13 @@ if (isDev) {
       timings: false,
       version: false,
     },
-    watchContentBase: true,
+  };
+
+  config.externals = {
+    // these lines are required for Enzyme only
+    'react/addons': true,
+    'react/lib/ReactContext': 'window',
+    'react/lib/ExecutionEnvironment': true,
   };
 
   config.devtool = 'cheap-module-eval-source-map';
