@@ -29,7 +29,7 @@ app.use(koaBody());
 router
   .get('/', async (ctx, next) => {
     ctx.body = 'Hello Koa';
-  });
+  })
   .get('/api/get-questions', QuestionController.getQuestions);
 
 app
