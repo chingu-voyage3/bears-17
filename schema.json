@@ -1,0 +1,15 @@
+{
+  "users": [{
+    "id": "",
+    "email": "",
+  }],
+  "posts": [{
+    "id": "",
+    "author": {
+      "name": "",
+
+    },
+    "answers": [],
+    "date": "",
+  }],
+}

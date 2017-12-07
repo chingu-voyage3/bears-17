@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "NODE_ENV=production webpack -p",
+    "build": "cross-env NODE_ENV=production webpack -p",
     "dev:client": "webpack-dev-server",
     "dev:server": "node -r dotenv/config ./server/index.js",
     "test": "jest --watchAll"
