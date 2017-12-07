@@ -63,6 +63,12 @@ Our app helps (aspiring) developers to prepare for job interviews with questions
 
 ## Install and Build
 
+### Developer Issues
+
+If running on Windows whilst building the app you might encounter a linebreak error message from ESLint.
+
+To fix simply add the to bash the [following](https://gist.github.com/RadValentin/dd8b9d70448413301e9a274ed54661a5).
+
 #### Clone this repo
 
 ``` bash
