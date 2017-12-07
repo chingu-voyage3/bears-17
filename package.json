@@ -3,8 +3,16 @@
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "dev:server": "node -r dotenv/config ./server/index.js"
+  },
+  "engines": {
+    "node": ">=8.9.0",
+    "npm": ">=5.5.1"
+  },
   "dependencies": {
+    "dotenv": "^4.0.0",
+    "koa": "^2.4.1",
     "normalize.scss": "^0.1.0"
   },
   "devDependencies": {
