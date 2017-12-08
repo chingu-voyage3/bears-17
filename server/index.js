@@ -2,7 +2,7 @@ const Koa = require('koa');
 const koaBody = require('koa-body');
 const mongoose = require('mongoose');
 const Router = require('koa-router');
-const QuestionController = require("./controller/index.js");
+const QuestionController = require('./controller/index.js');
 
 const app = new Koa();
 const router = new Router();
