@@ -7,7 +7,7 @@ exports.addQuestion = async (ctx) => {
 
   newQuestion.save((err) => {
     if (err) {
-      console.error(err, 'error');
+      console.error(err);
       return err;
     }
     // saved
