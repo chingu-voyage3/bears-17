@@ -6,9 +6,7 @@ You need to prepare yourself for the interview to make sure that you are success
 
 Our app helps (aspiring) developers to prepare for job interviews with questions asked by tech companies.
 
-<p align="center">
-  [User Stories](#user-stories) | [Tools Used](#tools-used-aka-tech-stack) | [Install & Build](#install-and-build) | [Contributors](#contributors)
-</p>
+[User Stories](#user-stories) | [Tools Used](#tools-used-aka-tech-stack) | [Install & Build](#install-and-build) | [Contributors](#contributors)
 
 ## User Stories
 
