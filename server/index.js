@@ -12,7 +12,7 @@ const port = process.env.API_PORT || 3000;
 // Promise Library for mongoose
 mongoose.Promise = require('bluebird');
 
-mongoose.connect(process.env.DB_URL)
+mongoose.connect(process.env.DB_URL, { useMongoClient: true })
   .then((res) => {
     console.log('Mongoose connected');
   })
