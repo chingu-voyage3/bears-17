@@ -6,6 +6,8 @@ You need to prepare yourself for the interview to make sure that you are success
 
 Our app helps (aspiring) developers to prepare for job interviews with questions asked by tech companies.
 
+[User Stories](#user-stories) | [Tools Used](#tools-used-aka-tech-stack) | [Install & Build](#install-and-build) | [Contributors](#contributors)
+
 ## User Stories
 
 ### Minimum Viable Product
@@ -90,13 +92,19 @@ You can find a `.env.example` file in the root directory as a starting point. Yo
 touch .env
 ```
 
+#### Start React app and API in parallel
+
+``` bash
+npm run dev
+```
+
 #### Start API dev server
 
 ``` bash
 npm run dev:server
 ```
 
-#### Start React appwith hot reload
+#### Start React app with hot reload
 
 It builds HTML, CSS, and the JavaScript bundle, starts a dev server and refreshes the browser on every saved changes.
 
