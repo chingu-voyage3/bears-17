@@ -25,3 +25,12 @@ exports.getQuestions = async (ctx) => {
       return ctx.body;
     });
 };
+
+exports.getId = async (ctx) => {
+  const queryId = ctx.id;
+  await Question.findById(queryId)
+    .then((result) => {
+      ctx.body = result;
+      return ctx.body;
+    });
+};
