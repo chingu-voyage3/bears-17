@@ -27,10 +27,14 @@ exports.getQuestions = async (ctx) => {
 };
 
 exports.getId = async (ctx) => {
-  const queryId = ctx.id;
-  await Question.findById(queryId)
+  console.log(ctx.params.id, "this is params")
+  await Question.findById(ctx.params.id)
     .then((result) => {
       ctx.body = result;
       return ctx.body;
-    });
+    })
+    .catch((err) => {
+      ctx.body = "id not recognized";
+      return ctx.body;
+    })
 };
