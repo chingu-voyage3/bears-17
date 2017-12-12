@@ -24,13 +24,18 @@ const Button = (props) => {
   } = props;
 
   const classNames = arr => arr.filter(Boolean).join(' ');
+
   const classes = [
     'btn',
-    hollow ? 'btn--hollow' : null,
     size === 'md' ? null : `btn--${size}`,
-    variant === 'default' ? null : `btn--${variant}`,
     className,
   ];
+  if (hollow) {
+    classes.push(variant === 'default' ? 'btn--hollow' : `btn--${variant}-hollow`);
+  } else {
+    classes.push(variant === 'default' ? null : `btn--${variant}`);
+  }
+
   return (
     <button
       type={type}
