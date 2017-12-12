@@ -1,10 +1,10 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const questionSchema = mongoose.Schema(
   {
     title: String,
     question: String,
-    user: { default: "user", type: String }
+    user: { default: 'user', type: String },
   },
   {
     timestamps: true,
@@ -12,6 +12,6 @@ const questionSchema = mongoose.Schema(
   },
 );
 
-const questionModel = mongoose.model("Test-Question", questionSchema);
+const questionModel = mongoose.model('Test-Question', questionSchema);
 
 module.exports = questionModel;

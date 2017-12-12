@@ -27,14 +27,14 @@ exports.getQuestions = async (ctx) => {
 };
 
 exports.getId = async (ctx) => {
-  console.log(ctx.params.id, "this is params")
   await Question.findById(ctx.params.id)
     .then((result) => {
       ctx.body = result;
       return ctx.body;
     })
     .catch((err) => {
-      ctx.body = "id not recognized";
+      console.error(err);
+      ctx.body = 'id not recognized';
       return ctx.body;
-    })
+    });
 };
