@@ -1,3 +1,4 @@
+require('dotenv').config();
 const autoprefixer = require('autoprefixer');
 const path = require('path');
 const webpack = require('webpack');
@@ -119,9 +120,9 @@ if (isDev) {
     historyApiFallback: true,
     hot: true,
     overlay: true,
-    port: 3002,
+    port: process.env.APP_PORT,
     proxy: {
-      '/api/**': 'http://localhost:3000',
+      '/api/**': `http://localhost:${process.env.API_PORT}`,
     },
     stats: {
       cached: false,
