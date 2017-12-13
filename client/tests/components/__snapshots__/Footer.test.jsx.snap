@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Footer should match the snapshot 1`] = `
+<footer
+  className="site-footer"
+>
+  <div
+    className="wrapper"
+  >
+    <p>
+      Made with 
+      <span
+        aria-label="Love"
+        className="emoji"
+        role="img"
+      >
+        ❤️
+      </span>
+       by the Chingu Bears 17 team
+    </p>
+    <p>
+      Source code is available on our 
+      <a
+        href="https://github.com/chingu-voyage3/bears-17"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        GitHub page
+      </a>
+    </p>
+  </div>
+</footer>
+`;
