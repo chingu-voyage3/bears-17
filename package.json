@@ -23,7 +23,8 @@
     "moduleNameMapper": {
       "^App$": "<rootDir>/client/App.jsx",
       "^Components/(.*)$": "<rootDir>/client/components/$1.jsx",
-      "^Containers/(.*)$": "<rootDir>/client/containers/$1.jsx"
+      "^Containers/(.*)$": "<rootDir>/client/containers/$1.jsx",
+      "\\.(jpg|jpeg|png|gif|svg)$": "<rootDir>/client/tests/__mocks__/fileMock.js"
     }
   },
   "dependencies": {
