@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Navigation should match the snapshot 1`] = `
+<nav
+  aria-label="Site links"
+>
+  <ul
+    className="main-nav"
+  >
+    <li
+      className="main-nav__item"
+    >
+      <a
+        className="main-nav__link"
+        href="/"
+      >
+        Home
+      </a>
+    </li>
+    <li
+      className="main-nav__item"
+    >
+      <a
+        className="main-nav__link"
+        href="/about"
+      >
+        About
+      </a>
+    </li>
+    <li
+      className="main-nav__item"
+    >
+      <a
+        className="main-nav__link"
+        href="/login"
+      >
+        Login
+      </a>
+    </li>
+  </ul>
+</nav>
+`;
