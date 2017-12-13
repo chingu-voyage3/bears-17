@@ -13,7 +13,7 @@ describe('Test mongoose actually works!', () => {
   let question;
 
   beforeAll(() => {
-    mongoose.connect('mongodb://127.0.0.1:27017/test')
+    mongoose.connect(process.env.TEST_DB)
       .then((res) => {
         console.log('Connected');
       });
