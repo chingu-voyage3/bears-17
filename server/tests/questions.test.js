@@ -1,6 +1,6 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
-const Question = require('./testSchema.js');
+const { Question, Author } = require('./testSchema.js');
 mongoose.Promise = require('bluebird');
 
 describe('Test mongoose actually works!', () => {
@@ -24,10 +24,7 @@ describe('Test mongoose actually works!', () => {
     return question.save();
   });
 
-  afterEach(() => Question.remove({})
-    .then((res) => {
-      console.log('removed');
-    }));
+  afterEach(() => Question.remove({}));
 
   afterAll((done) => {
     mongoose.disconnect(done);
@@ -45,7 +42,7 @@ describe('Test mongoose actually works!', () => {
 
   test('Should remove a single entry and return an empty array ', async (done) => {
     await Question.find({})
-      .then((result) => result[0].remove()).then((result) => {
+      .then(result => result[0].remove()).then(() => {
         Question.find({ _id: questionData._id })
           .then((res) => {
             expect(res).toHaveLength(0);
@@ -60,6 +57,37 @@ describe('Test mongoose actually works!', () => {
         expect(res.title).toEqual(questionData.title);
       });
 
+    done();
+  });
+
+
+  test('Returned entry should return a question object with author populated', async (done) => {
+    const author = new Author({
+      _id: new mongoose.Types.ObjectId(),
+      name: 'Test Author',
+      email: 'test@author.com',
+      avatar: 'https://www.images.com/avatar.png',
+    });
+
+    await author.save()
+      .then(() => {
+        const newQ = new Question({
+          title: 'How do I connect two MongoDB models?',
+          question: 'Is it possible to connect the two?',
+          author: author._id,
+        });
+
+        return newQ.save();
+      });
+
+    await Question.find({ title: 'How do I connect two MongoDB models?' })
+      .then((res) => {
+        return res[0].populate('author')
+          .execPopulate();
+      })
+      .then((res) => {
+        expect(res.author.name).toEqual(author.name);
+      });
     done();
   });
 });

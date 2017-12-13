@@ -2,16 +2,12 @@ const mongoose = require('mongoose');
 
 const questionSchema = mongoose.Schema(
   {
-    submitted_at: Date.now(),
-    title: String,
+    title: {type: String, required: true },
     body: String,
     votes: Number,
     author: {
-      _id: {
-        $oid: ObjectId(),
-      },
-      name: String,
-      avatar: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Author',
     },
   },
   {
