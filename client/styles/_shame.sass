@@ -1,1 +1,13 @@
 // should keep empty
+.wrapper
+  margin: 0 auto
+  max-width: 1200px
+  padding: 0 1rem
+  width: 100%
+
+  &--flex
+    display: flex
+    justify-content: space-between
+
+  +breakpoint(tablet)
+    padding: 0 2rem

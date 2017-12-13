@@ -37,6 +37,9 @@ textarea
   line-height: inherit
   margin: 0
 
+  &:focus
+    outline: thin dotted
+
 textarea
   overflow: auto
   resize: vertical
@@ -51,7 +54,18 @@ ul,
 
 h1,
 h2,
-h3
+h3,
+h4
   font-weight: $font-weight
   margin-bottom: $global-margin-bottom
   margin-top: 0
+
+a
+  text-decoration: none
+
+  &:focus
+    outline: thin dotted
+
++breakpoint(desktop)
+  p
+    font-size: 1.25rem
