@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Logo should match the snapshot 1`] = `
+<div
+  className="logo"
+>
+  <a
+    className="logo__link"
+    href="/"
+  >
+    <img
+      alt="Our app's name"
+      src="test-file"
+    />
+  </a>
+</div>
+`;
