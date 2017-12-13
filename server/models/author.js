@@ -7,7 +7,7 @@ const authorSchema = mongoose.Schema({
   country: String,
   member_since: {type: Date, default: Date.now },
   introduction: String,
-  questions: [{type: Schema.Types.ObjectId, ref: 'Question'}]
+  questions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Question' }],
 });
 
 const authorModel = mongoose.model('Author', authorSchema);
