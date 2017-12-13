@@ -1,13 +1,17 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
-const { Question, Author } = require('./testSchema.js');
+const { Question, User } = require('./testSchema.js');
 mongoose.Promise = require('bluebird');
 
-describe('Test mongoose actually works!', () => {
+describe('Test mongoose models', () => {
   const questionData = {
     _id: new mongoose.Types.ObjectId(),
     title: 'First Question',
     question: 'Describe your workflow',
+    author: {
+      name: 'User',
+      avatar: 'avatar',
+    },
   };
 
   let question;
@@ -24,7 +28,10 @@ describe('Test mongoose actually works!', () => {
     return question.save();
   });
 
-  afterEach(() => Question.remove({}));
+  afterEach(() => {
+    Question.remove({}).exec();
+    User.remove({}).exec();
+  });
 
   afterAll((done) => {
     mongoose.disconnect(done);
@@ -39,7 +46,7 @@ describe('Test mongoose actually works!', () => {
 
     done();
   });
-
+  
   test('Should remove a single entry and return an empty array ', async (done) => {
     await Question.find({})
       .then(result => result[0].remove()).then(() => {
@@ -61,34 +68,29 @@ describe('Test mongoose actually works!', () => {
   });
 
 
-  test('Returned entry should return a question object with author populated', async (done) => {
-    const author = new Author({
-      _id: new mongoose.Types.ObjectId(),
-      name: 'Test Author',
-      email: 'test@author.com',
+  test('The returned question should have an author that matched new user entry', async (done) => {
+    const userData = {
+      name: 'Test User',
       avatar: 'https://www.images.com/avatar.png',
+    };
+
+    const user = new User(userData);
+    await user.save();
+
+    const newQuestion = new Question({
+      title: 'New Question',
+      body: 'Body of the new question.',
+      author: userData,
     });
 
-    await author.save()
-      .then(() => {
-        const newQ = new Question({
-          title: 'How do I connect two MongoDB models?',
-          question: 'Is it possible to connect the two?',
-          author: author._id,
-        });
+    await newQuestion.save();
 
-        return newQ.save();
-      });
-
-    await Question.find({ title: 'How do I connect two MongoDB models?' })
+    await Question.find({ title: newQuestion.title })
       .then((res) => {
-        return res[0].populate('author')
-          .execPopulate();
-      })
-      .then((res) => {
-        expect(res.author.name).toEqual(author.name);
+        expect(res[0].author.name).toEqual(userData.name);
       });
     done();
   });
+
 });
 

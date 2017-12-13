@@ -6,17 +6,17 @@ const questionSchema = mongoose.Schema(
     body: String,
     votes: Number,
     author: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Author',
+      name: String,
+      avatar: String,
     },
   },
   {
     timestamps: { createdAt: 'submitted_at', updatedAt: 'updated_at' },
-    collection: 'test',
-  }
+    collection: 'test questions',
+  },
 );
 
-const authorSchema = mongoose.Schema(
+const userSchema = mongoose.Schema(
   {
     name: { type: String, required: true },
     email: String,
@@ -24,18 +24,17 @@ const authorSchema = mongoose.Schema(
     country: String,
     member_since: { type: Date, default: Date.now },
     introduction: String,
-    questions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Question' }],
   },
   {
-    collection: 'test',
+    collection: 'test users',
   },
 );
 
 const questionModel = mongoose.model('Question', questionSchema);
-const authorModel = mongoose.model('Author', authorSchema);
+const userModel = mongoose.model('User', userSchema);
 
 module.exports = {
-  Author: authorModel,
+  User: userModel,
   Question: questionModel,
 };
 
