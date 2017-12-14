@@ -27,7 +27,8 @@ router
   .get('/', async (ctx) => {
     ctx.body = 'Hello Koa';
   })
-  .get('/api/questions', QuestionController.getQuestions);
+  .get('/api/questions', QuestionController.getQuestions)
+  .get('/api/question/:id', QuestionController.getId);
 
 app
   .use(router.routes())
