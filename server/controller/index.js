@@ -25,3 +25,16 @@ exports.getQuestions = async (ctx) => {
       return ctx.body;
     });
 };
+
+exports.getId = async (ctx) => {
+  await Question.findById(ctx.params.id)
+    .then((result) => {
+      ctx.body = result;
+      return ctx.body;
+    })
+    .catch((err) => {
+      console.error(err);
+      ctx.body = 'id not recognized';
+      return ctx.body;
+    });
+};
