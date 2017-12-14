@@ -1,0 +1,166 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`QuestionList should match the snapshot 1`] = `
+<section
+  className=""
+>
+  <div
+    className="wrapper"
+  >
+    <ul
+      className="question-list"
+    >
+      <li
+        className="question"
+      >
+        <h3
+          className="question__title"
+        >
+          <a
+            href="/question/5a3304d3fc13ae261a0002c6"
+          >
+            Vestibulum ac est lacinia nisi venenatis tristique?
+          </a>
+        </h3>
+        <footer
+          className="question__meta"
+        >
+          <div
+            className="user"
+          >
+            <img
+              alt=""
+              className="user__avatar"
+              src="http://dummyimage.com/512x512.jpg/dddddd/000000&text=Brandais Frodsam"
+              width="32px"
+            />
+            <span
+              className="user__name"
+            >
+              Brandais Frodsam
+            </span>
+          </div>
+          <div
+            className="question__votes"
+          >
+            34
+             votes
+          </div>
+          <span
+            className="question__time"
+          >
+            <time
+              dateTime="2017-12-08T08:23:31Z"
+            >
+              Dec 8, 8:23 AM
+            </time>
+          </span>
+          <span>
+            X answers
+          </span>
+        </footer>
+      </li>
+      <li
+        className="question"
+      >
+        <h3
+          className="question__title"
+        >
+          <a
+            href="/question/5a3304d3fc13ae261a0002c8"
+          >
+            Nulla mollis molestie lorem?
+          </a>
+        </h3>
+        <footer
+          className="question__meta"
+        >
+          <div
+            className="user"
+          >
+            <img
+              alt=""
+              className="user__avatar"
+              src="http://dummyimage.com/512x512.jpg/cc0000/ffffff&text=Matthias Dymock"
+              width="32px"
+            />
+            <span
+              className="user__name"
+            >
+              Matthias Dymock
+            </span>
+          </div>
+          <div
+            className="question__votes"
+          >
+            5
+             votes
+          </div>
+          <span
+            className="question__time"
+          >
+            <time
+              dateTime="2017-12-04T22:09:29Z"
+            >
+              Dec 4, 10:09 PM
+            </time>
+          </span>
+          <span>
+            X answers
+          </span>
+        </footer>
+      </li>
+      <li
+        className="question"
+      >
+        <h3
+          className="question__title"
+        >
+          <a
+            href="/question/5a3304d3fc13ae261a0002ca"
+          >
+            Nullam sit amet turpis elementum ligula vehicula consequat?
+          </a>
+        </h3>
+        <footer
+          className="question__meta"
+        >
+          <div
+            className="user"
+          >
+            <img
+              alt=""
+              className="user__avatar"
+              src="http://dummyimage.com/512x512.jpg/5fa2dd/ffffff&text=Ingmar Storey"
+              width="32px"
+            />
+            <span
+              className="user__name"
+            >
+              Ingmar Storey
+            </span>
+          </div>
+          <div
+            className="question__votes"
+          >
+            67
+             votes
+          </div>
+          <span
+            className="question__time"
+          >
+            <time
+              dateTime="2017-12-06T22:20:15Z"
+            >
+              Dec 6, 10:20 PM
+            </time>
+          </span>
+          <span>
+            X answers
+          </span>
+        </footer>
+      </li>
+    </ul>
+  </div>
+</section>
+`;
