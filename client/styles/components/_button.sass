@@ -1,0 +1,112 @@
+.btn
+  background-color: $lightbrown
+  border: 1px solid transparent
+  border-radius: $global-border-radius
+  color: inherit
+  cursor: pointer
+  font-family: inherit
+  font-size: inherit
+  font-weight: 400
+  padding: .5rem 1rem
+  touch-action: manipulation
+  transition: .2s ease-in-out all
+  user-select: none
+
+  &:hover
+    background-color: darken($lightbrown, 10%)
+    color: opacify($text-color, .2)
+
+  &:focus
+    outline: thin dotted
+
+  &:disabled
+    cursor: not-allowed
+    opacity: .8
+
+  &--sm
+    font-size: .825rem
+    padding: .25rem .75rem
+
+  &--lg
+    font-size: 1.25rem
+    font-weight: 300
+    padding: .75rem 1.5rem
+
+  &--full
+    width: 100%
+
+  &--hollow
+    background-color: transparent
+    border: 1px solid currentColor
+
+  &--primary
+    background-color: $blue
+    color: rgba(white, .9)
+
+    &:hover
+      background-color: darken($blue, 10%)
+      color: rgba(white, .9)
+
+    &-hollow
+      background-color: transparent
+      border: 1px solid $blue
+      color: $blue
+
+      &:hover
+        background-color: transparent
+        border-color: darken($blue, 10%)
+        color: darken($blue, 10%)
+
+  &--success
+    background-color: $green
+    color: rgba(white, .9)
+
+    &:hover
+      background-color: darken($green, 10%)
+      color: rgba(white, .9)
+
+    &-hollow
+      background-color: transparent
+      border: 1px solid $green
+      color: $green
+
+      &:hover
+        background-color: transparent
+        border-color: darken($green, 10%)
+        color: darken($green, 10%)
+
+  &--warning
+    background-color: $orange
+    color: rgba(white, .9)
+
+    &:hover
+      background-color: darken($orange, 10%)
+      color: rgba(white, .9)
+
+    &-hollow
+      background-color: transparent
+      border: 1px solid $orange
+      color: $orange
+
+      &:hover
+        background-color: transparent
+        border-color: darken($orange, 10%)
+        color: darken($orange, 10%)
+
+  &--danger
+    background-color: $red
+    color: rgba(white, .9)
+
+    &:hover
+      background-color: darken($red, 10%)
+      color: rgba(white, .9)
+
+    &-hollow
+      background-color: transparent
+      border: 1px solid $red
+      color: $red
+
+      &:hover
+        background-color: transparent
+        border-color: darken($red, 10%)
+        color: darken($red, 10%)
