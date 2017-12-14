@@ -8,11 +8,8 @@ const Avatar = (props) => {
   if (props.round) {
     classNames += ' avatar--round';
   }
-  return (<img alt="" src={props.img} className={classNames} />
-
-  );
+  return (<img alt="" src={props.img} className={classNames} />);
 };
-
 
 Avatar.propTypes = {
   img: PropTypes.string,
@@ -25,4 +22,5 @@ Avatar.defaultProps = {
   size: 'medium',
   round: false,
 };
+
 export default Avatar;
