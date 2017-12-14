@@ -47,7 +47,7 @@ describe('Test mongoose models', () => {
     done();
   });
   
-  test('Should remove a single entry and return an empty array ', async (done) => {
+  test('Should remove a single entry and return an empty array', async (done) => {
     await Question.find({})
       .then(result => result[0].remove()).then(() => {
         Question.find({ _id: questionData._id })
@@ -58,7 +58,7 @@ describe('Test mongoose models', () => {
     done();
   });
 
-  test('should find and return an entry based on id', async (done) => {
+  test('Should find and return an entry based on id', async (done) => {
     await Question.findById(questionData._id)
       .then((res) => {
         expect(res.title).toEqual(questionData.title);

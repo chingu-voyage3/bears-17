@@ -37,4 +37,3 @@ module.exports = {
   User: userModel,
   Question: questionModel,
 };
-

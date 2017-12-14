@@ -11,7 +11,7 @@ const questionSchema = mongoose.Schema(
     },
   },
   {
-    timestamps: { createdAt: 'submitted_at', updatedAt: 'updated_at' }
+    timestamps: { createdAt: 'submitted_at', updatedAt: 'updated_at' },
   },
 );
 
