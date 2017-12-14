@@ -6,8 +6,12 @@
   width: 100%
 
   &--flex
+    align-items: center
     display: flex
     justify-content: space-between
 
-  +breakpoint(tablet)
+    &-wrap
+      flex-wrap: wrap
+
+  +breakpoint(landscape)
     padding: 0 2rem

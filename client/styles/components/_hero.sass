@@ -1,0 +1,32 @@
+.hero
+  align-items: center
+  background-attachment: fixed
+  background-color: $plum
+  background-image: linear-gradient(to bottom, rgba($plum, .8), $plum), url($hero-image)
+  background-position: center
+  background-size: cover
+  color: #fff
+  display: flex
+  min-height: 75vh
+
+  &__subtitle
+    margin-bottom: 0
+
+  &__cta,
+  &__description
+    align-items: center
+    display: flex
+    flex-direction: column
+    justify-content: center
+    min-height: 300px
+    text-align: center
+    width: 100%
+
+  .btn:first-of-type
+    margin-bottom: $global-margin-bottom
+
++breakpoint(tablet)
+  .hero
+    &__cta,
+    &__description
+      width: 50%
