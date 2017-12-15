@@ -15,6 +15,12 @@ const questionSchema = mongoose.Schema(
   },
 );
 
+questionSchema.statics.getRandom = function getRandom(limit = 1) {
+  return this.aggregate([{
+    $sample: { size: +limit },
+  }]);
+};
+
 const questionModel = mongoose.model('Question', questionSchema);
 
 module.exports = questionModel;
