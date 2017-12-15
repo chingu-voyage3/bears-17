@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`QuestionHeader should match the snapshot 1`] = `
+<div
+  className="page__header"
+>
+  <h2
+    className="page__title"
+  >
+    Test Title
+  </h2>
+</div>
+`;
