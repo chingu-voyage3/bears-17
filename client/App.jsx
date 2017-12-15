@@ -1,11 +1,22 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import Home from 'Components/Home';
+import Header from 'Components/Header';
+import Footer from 'Components/Footer';
+
+import Home from 'Containers/Home';
+import Question from 'Containers/Question';
 
 const routes = () => (
   <Router>
-    <Route path="/" component={Home} />
+    <div>
+      <Header />
+      <Switch>
+        <Route path="/question/:id" component={Question} />
+        <Route path="/" component={Home} />
+      </Switch>
+      <Footer />
+    </div>
   </Router>
 );
 

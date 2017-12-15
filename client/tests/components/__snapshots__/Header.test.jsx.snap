@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header should match the snapshot 1`] = `
+<header
+  className="site-header"
+>
+  <div
+    className="wrapper wrapper--flex"
+  >
+    <div
+      className="logo"
+    >
+      <a
+        className="logo__link"
+        href="/"
+      >
+        <img
+          alt="Our app's name"
+          src="test-file"
+        />
+      </a>
+    </div>
+    <nav
+      aria-label="Site links"
+    >
+      <ul
+        className="main-nav"
+      >
+        <li
+          className="main-nav__item"
+        >
+          <a
+            className="main-nav__link"
+            href="/"
+          >
+            Home
+          </a>
+        </li>
+        <li
+          className="main-nav__item"
+        >
+          <a
+            className="main-nav__link"
+            href="/about"
+          >
+            About
+          </a>
+        </li>
+        <li
+          className="main-nav__item"
+        >
+          <a
+            className="main-nav__link"
+            href="/login"
+          >
+            Login
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+`;

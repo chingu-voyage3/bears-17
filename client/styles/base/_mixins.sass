@@ -1,0 +1,6 @@
+=breakpoint($name)
+  @if map-has-key($breakpoints, $name)
+    @media screen and (min-width: #{map-get($breakpoints, $name)})
+      @content
+  @else
+    @warn 'Error: "#{$name}: is not defined in "$breakpoints" map.'

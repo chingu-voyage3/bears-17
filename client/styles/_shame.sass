@@ -1,1 +1,27 @@
 // should keep empty
+.wrapper
+  margin: 0 auto
+  max-width: 1200px
+  padding: 0 1rem
+  width: 100%
+
+  &--flex
+    align-items: center
+    display: flex
+    justify-content: space-between
+
+    &-wrap
+      flex-wrap: wrap
+
+  +breakpoint(landscape)
+    padding: 0 2rem
+
+.page__header
+  background-color: $plum
+  margin-bottom: $global-margin-bottom
+  padding: 2rem 0
+  text-align: center
+
+.page__title
+  color: #ffffff
+  margin-bottom: 0
