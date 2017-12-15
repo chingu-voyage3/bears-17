@@ -43,7 +43,7 @@ describe('Avatar', () => {
   });
 
   it('should have the correct image depending on img prop', () => {
-    const avatar = shallow(<Avatar />);
+    const avatar = shallow(<Avatar img="https://robohash.org/quisquamculpavoluptatem.jpg"/>);
     expect(avatar.props().img).toBe(avatar.find('img').src);
   });
 });
