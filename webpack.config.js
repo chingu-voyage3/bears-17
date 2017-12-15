@@ -42,6 +42,7 @@ const config = {
   output: {
     filename: '[name].js',
     path: path.resolve('dist'),
+    publicPath: '/',
   },
   resolve: {
     alias: {
