@@ -28,6 +28,7 @@ router
     ctx.body = 'Hello Koa';
   })
   .get('/api/questions', QuestionController.getQuestions)
+  .get('/api/questions/random/:limit?', QuestionController.getRandomQuestions)
   .get('/api/question/:id', QuestionController.getId);
 
 app

@@ -26,6 +26,14 @@ exports.getQuestions = async (ctx) => {
     });
 };
 
+exports.getRandomQuestions = async (ctx) => {
+  await Question.getRandom(ctx.params.limit)
+    .then((result) => {
+      ctx.body = result;
+      return ctx.body;
+    });
+};
+
 exports.getId = async (ctx) => {
   await Question.findById(ctx.params.id)
     .then((result) => {
