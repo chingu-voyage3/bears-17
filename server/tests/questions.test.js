@@ -1,6 +1,6 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
-const { Question, User } = require('./testSchema.js');
+const { Question, User, Answer } = require('./testSchema.js');
 mongoose.Promise = require('bluebird');
 
 describe('Test mongoose models', () => {
@@ -92,5 +92,64 @@ describe('Test mongoose models', () => {
     done();
   });
 
+  test('Answer should save and be searchable on the DB', async (done) => {
+    const answer = {
+      question_id: {
+        $oid: '5a2ff257fc13ae6d59000532',
+      },
+      submitted_at: '2017-12-09T21:09:03Z',
+      body: 'Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis. Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.',
+      votes: 43,
+      author: {
+        _id: {
+          $oid: '5a2ff186fc13ae7095000642',
+        },
+        name: 'Maurise Britney',
+        avatar: 'http://dummyimage.com/512x512.jpg/5fa2dd/ffffff&text=Maurise Britney',
+      },
+    };
+
+    const newAnswer = new Answer(answer);
+    await newAnswer.save();
+
+    await Answer.find({ 'author.name': answer.author.name })
+      .then((res) => {
+        expect(res).toHaveLength(1);
+        expect(res[0].author.name).toEqual(answer.author.name);
+      });
+
+    done();
+  });
+
+
+  test('Should be able to find a question by ID, add a new answer and return that answer on the DB', async (done) => {
+    const id = questionData._id;
+    const answer = {
+      question_id: id,
+      submitted_at: Date.now(),
+      body: 'Answer to a test',
+      author: {
+        _id: {
+          $oid: '5a2ff186fc13ae7095000642',
+        },
+        name: 'Maurise Britney',
+        avatar: 'http://dummyimage.com/512x512.jpg/5fa2dd/ffffff&text=Maurise Britney',
+      },
+    };
+
+    await Question.findById(id)
+      .then(() => {
+        const newAnswer = new Answer(answer);
+        newAnswer.save();
+      });
+
+    await Answer.find()
+      .then((res) => {
+        expect(res).toHaveLength(1);
+        expect(res[0].question_id).toEqual(id);
+      });
+
+    done();
+  });
 });
 
