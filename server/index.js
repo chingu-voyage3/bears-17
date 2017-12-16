@@ -29,7 +29,8 @@ router
   })
   .get('/api/questions', QuestionController.getQuestions)
   .get('/api/questions/random/:limit?', QuestionController.getRandomQuestions)
-  .get('/api/question/:id', QuestionController.getId);
+  .get('/api/question/:id', QuestionController.getId)
+  .post('/api/answer', QuestionController.addAnswer);
 
 app
   .use(router.routes())
