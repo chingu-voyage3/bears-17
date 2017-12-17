@@ -79,17 +79,38 @@ h4
   text-transform: uppercase
 
 a
+  background-image: linear-gradient(currentColor,currentColor)
+  background-repeat: no-repeat
+  background-position: center bottom 22%
+  background-size: 100% 1px
+  color: $link-color
+  padding: .5rem 0
   text-decoration: none
+  text-shadow: 3px 0 $link-shadow, 2px 0 $link-shadow, 1px 0 $link-shadow, -1px 0 $link-shadow, -2px 0 $link-shadow, -3px 0 $link-shadow
 
   &:focus
     outline: thin dotted
 
+  &:hover
+    color: $link-color-hover
+
 blockquote
-  border-left: 4px solid $green
+  border-left: $blockquote-border
   color: transparentize($text-color, .2)
   margin-left: 0
   margin-right: 0
   padding-left: 1rem
+
+code
+  background-color: $code-background
+  border-radius: $global-border-radius
+  color: $code-color
+  font-size: 90%
+  padding: .2rem .4rem
+
+hr
+  border: $hr-width solid $hr-color
+  margin: -$hr-width 0
 
 +breakpoint(desktop)
   p
