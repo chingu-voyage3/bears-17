@@ -32,11 +32,11 @@ const userSchema = mongoose.Schema(
 
 const answerSchema = mongoose.Schema(
   {
-    question_id: { type: String, required: true },
+    question_id: { type: mongoose.Schema.Types.ObjectId, required: true },
     body: String,
     votes: Number,
     author: {
-      _id: mongoose.Types.ObjectId,
+      _id: mongoose.Schema.Types.ObjectId,
       name: String,
       avatar: String,
     },
