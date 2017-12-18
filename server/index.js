@@ -3,6 +3,7 @@ const koaBody = require('koa-body');
 const mongoose = require('mongoose');
 const Router = require('koa-router');
 const QuestionController = require('./controller/index.js');
+const AnswerController = require('./')
 
 const app = new Koa();
 const router = new Router();
@@ -30,7 +31,7 @@ router
   .get('/api/questions', QuestionController.getQuestions)
   .get('/api/questions/random/:limit?', QuestionController.getRandomQuestions)
   .get('/api/question/:id', QuestionController.getId)
-  .post('/api/answer', QuestionController.addAnswer);
+  .post('/api/answer', AnswerController.addAnswer);
 
 app
   .use(router.routes())
