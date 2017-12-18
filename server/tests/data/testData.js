@@ -26,7 +26,7 @@ const question = {
 
 const user = {
   name: "Test User",
-  avatar: "https://www.images.com/avatar.png"
+  avatar: "https://www.images.com/avatar.png",
 };
 
 module.exports = {

@@ -10,7 +10,7 @@ exports.addAnswer = async (ctx) => {
       }
     });
 
-  await Answer.find({ 'question_id': ctx.request.body._id })
+  await Answer.find({ question_id: ctx.request.body._id })
     .then((res) => {
       const result = [res];
       ctx.body = result;

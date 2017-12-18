@@ -1,7 +1,7 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 const { Question, User, Answer } = require('./testSchema.js');
-const { answerData, questionData, userData} = require('./data/testData');
+const { answerData, questionData, userData } = require('./data/testData');
 mongoose.Promise = require('bluebird');
 
 describe('Test mongoose models', () => {
@@ -38,7 +38,7 @@ describe('Test mongoose models', () => {
 
     done();
   });
-  
+
   test('Should remove a single entry and return an empty array', async (done) => {
     await Question.find({})
       .then(result => result[0].remove()).then(() => {
@@ -61,7 +61,6 @@ describe('Test mongoose models', () => {
 
 
   test('The returned question should have an author that matched new user entry', async (done) => {
-
     const user = new User(userData);
     await user.save();
 
@@ -81,7 +80,6 @@ describe('Test mongoose models', () => {
   });
 
   test('Answer should save and be searchable on the DB', async (done) => {
-    
     const answer = answerData;
 
     const newAnswer = new Answer(answer);
@@ -100,7 +98,7 @@ describe('Test mongoose models', () => {
   test('Should be able to find a question by ID, add a new answer and return that answer on the DB', async (done) => {
     const id = questionData._id;
     const answer = answerData;
-    
+
     await Question.findById(id)
       .then(() => {
         const newAnswer = new Answer(answer);
@@ -116,4 +114,3 @@ describe('Test mongoose models', () => {
     done();
   });
 });
-
