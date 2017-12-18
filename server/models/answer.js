@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 
 const answerSchema = mongoose.Schema(
   {
-    question_id: { type: mongoose.Types.ObjectId, required: true },
-    body: String,
+    question_id: { type: mongoose.Schema.Types.ObjectId, required: true },
+    body: { type: String, required: true },
     votes: Number,
     author: {
-      _id: mongoose.Types.ObjectId,
+      _id: mongoose.Schema.Types.ObjectId,
       name: String,
       avatar: String,
     },

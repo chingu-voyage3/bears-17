@@ -2,7 +2,7 @@ const Question = require('../models/question.js');
 const Answer = require('../models/answer.js');
 
 exports.addAnswer = async (ctx) => {
-  await Question.findById(ctx.request.body._id)
+  await Question.findById(ctx.request.body.question_id)
     .then((res) => {
       if (res) {
         const answer = new Answer(ctx.request.body);

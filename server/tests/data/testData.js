@@ -25,8 +25,8 @@ const question = {
 };
 
 const user = {
-  name: "Test User",
-  avatar: "https://www.images.com/avatar.png",
+  name: 'Test User',
+  avatar: 'https://www.images.com/avatar.png',
 };
 
 module.exports = {
