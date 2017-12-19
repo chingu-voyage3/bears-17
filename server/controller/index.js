@@ -20,6 +20,7 @@ exports.addQuestion = async (ctx) => {
 
 exports.getQuestions = async (ctx) => {
   await Question.find({})
+    .limit(10)
     .then((res) => {
       ctx.body = res;
       return ctx.body;
