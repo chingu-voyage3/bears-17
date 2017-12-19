@@ -3,7 +3,7 @@ const Question = require('../models/question.js');
 const Answer = require('../models/answer.js');
 const trim = require('deep-trim-node');
 const Joi = require('joi');
-const ObjectId = require('mongoose').Types.ObjectId;
+const { ObjectId } = require('mongoose').Types;
 Joi.objectId = require('eko-joi-objectid')(Joi, ObjectId);
 
 exports.addAnswer = async (ctx) => {
@@ -37,7 +37,8 @@ exports.validateAnswer = async (ctx, next) => {
     .keys({
       question_id: Joi.objectId()
         .required(),
-      body: Joi.string(),
+      body: Joi.string()
+        .required(),
       author: Joi.object({
         _id: Joi.objectId(),
         name: Joi.string(),
