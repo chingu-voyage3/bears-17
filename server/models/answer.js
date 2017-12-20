@@ -6,7 +6,7 @@ const answerSchema = mongoose.Schema(
     body: { type: String, required: true },
     votes: { type: Number, default: 0 },
     author: {
-      _id: mongoose.Schema.Types.ObjectId,
+      _id: String,
       name: String,
       avatar: String,
     },
