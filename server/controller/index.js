@@ -19,9 +19,19 @@ exports.addQuestion = async (ctx) => {
 };
 
 exports.getQuestions = async (ctx) => {
+  let { page = 1, limit = 10 } = ctx.request.query;
+  limit = Number(limit);
+  limit = Number.isInteger(limit) ? limit : 10;
+  const skip = (page - 1) * limit;
+
   await Question.find({})
-    .limit(10)
+    .limit(limit)
+    .skip(skip)
     .then((res) => {
+      if (res.length === 0) {
+        ctx.body = { err: 'No search results' };
+        return ctx.body;
+      }
       ctx.body = res;
       return ctx.body;
     });
