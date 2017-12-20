@@ -41,7 +41,10 @@ app
   .use(router.routes())
   .use(router.allowedMethods());
 
+module.exports = app;
 
-app.listen(port, () => {
-  console.log(`Server is listening on http://localhost:${port}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(port, () => {
+    console.log(`Server is listening on http://localhost:${port}`);
+  });
+}
