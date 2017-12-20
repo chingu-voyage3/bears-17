@@ -30,7 +30,7 @@ router
   .get('/api/questions', QuestionController.getQuestions)
   .get('/api/questions/random/:limit?', QuestionController.getRandomQuestions)
   .get('/api/question/:id', QuestionController.getId)
-  .post('api/question/:id/spam', koaBody(), QuestionController.markSpam);
+  .post('api/question/:id/spam', QuestionController.markSpam);
 app
   .use(router.routes())
   .use(router.allowedMethods());
