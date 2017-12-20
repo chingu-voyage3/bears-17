@@ -46,3 +46,7 @@ exports.getId = async (ctx) => {
       return ctx.body;
     });
 };
+
+exports.markSpam = (ctx) => {
+  ctx.body = ctx.request.body;
+};
