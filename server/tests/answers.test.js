@@ -9,11 +9,11 @@ const answers = require('./data/testAnswers');
 
 describe('GET /api/answers/:id', () => {
   beforeAll(() => {
-    Answer.create(answers);
+    return Answer.create(answers);
   });
 
-  afterAll(done => {
-    Answer.remove({}).exec();
+  afterAll(() => {
+    return Answer.remove({}).exec();
   });
 
   it('should display a maximum of 10 answers by default', async () => {
