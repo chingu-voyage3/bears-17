@@ -46,3 +46,28 @@ exports.getId = async (ctx) => {
       return ctx.body;
     });
 };
+
+exports.vote = async (ctx) => {
+  await Question.findOneAndUpdate(
+    { _id: ctx.params.id },
+    { $inc: { votes: 1 } },
+    { new: true },
+  )
+    .then((res) => {
+      if (res) {
+        ctx.body = res;
+        return ctx.body;
+      }
+
+      ctx.body = {
+        error: 'Question ID not found',
+      };
+      return ctx.body;
+    })
+    .catch((err) => {
+      ctx.body = {
+        error: err,
+      };
+      return ctx.body;
+    });
+};
