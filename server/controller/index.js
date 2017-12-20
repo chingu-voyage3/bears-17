@@ -18,14 +18,6 @@ exports.addQuestion = async (ctx) => {
   return ctx.body;
 };
 
-exports.getAllQuestions = async (ctx) => {
-  await Question.find({})
-    .then((res) => {
-      ctx.body = res;
-      return ctx.body;
-    });
-};
-
 exports.getQuestions = async (ctx) => {
   const { page } = ctx.request.query;
   const limit = 10;
