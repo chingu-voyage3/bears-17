@@ -31,12 +31,31 @@ exports.addAnswer = async (ctx) => {
 };
 
 exports.findAnswersById = async (ctx) => {
+  const SORTS = [-1, 1, '-1', '1'];
+  const SORT_BYS = ['votes', 'submitted_at'];
   const { id: question_id } = ctx.params;
+  let {
+    sort = -1,
+    sort_by = 'submitted_at',
+  } = ctx.request.query;
+
+  if (!SORT_BYS.includes(sort_by)) {
+    ctx.body = { err: `'${sort_by}' is not a valid value for 'sort_by'` };
+    return ctx.body;
+  }
+
+  if (!SORTS.includes(sort)) {
+    ctx.body = { err: `'${sort}' is not a valid value for 'sort'` };
+    return ctx.body;
+  }
 
   await Answer.find({ question_id })
+    .sort({ [sort_by]: sort })
     .then((res) => {
       if (res.length === 0) {
-        ctx.body = { err: 'No Answers with that ID' };
+        // is it really an error?
+        // shouldn't we just return an empty array?
+        ctx.body = { err: 'No answers found with that question ID' };
         return ctx.body;
       }
 
