@@ -42,6 +42,10 @@ exports.findAnswersById = async (ctx) => {
 
       ctx.body = res;
       return ctx.body;
+    }).catch((err) => {
+      console.error(err);
+      ctx.body = { err: err.message };
+      return ctx.body;
     });
 };
 
