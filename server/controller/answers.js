@@ -50,7 +50,7 @@ exports.validateAnswer = async (ctx, next) => {
     .then(res => res)
     .catch((err) => {
       console.error(err);
-      return { err: err.details.message };
+      return { err: err.details };
     });
 
   if (result.err) {
