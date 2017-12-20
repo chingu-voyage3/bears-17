@@ -5,6 +5,7 @@ const questionSchema = mongoose.Schema(
     title: { type: String, required: true },
     body: String,
     votes: Number,
+    spam: Array,
     author: {
       name: { type: String, required: true },
       avatar: String,
