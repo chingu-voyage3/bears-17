@@ -30,6 +30,25 @@ exports.addAnswer = async (ctx) => {
     });
 };
 
+exports.findAnswersById = async (ctx) => {
+  const { id: question_id } = ctx.params;
+
+  await Answer.find({ question_id })
+    .then((res) => {
+      if (res.length === 0) {
+        ctx.body = { err: 'No Answers with that ID' };
+        return ctx.body;
+      }
+
+      ctx.body = res;
+      return ctx.body;
+    }).catch((err) => {
+      console.error(err);
+      ctx.body = { err: err.message };
+      return ctx.body;
+    });
+};
+
 exports.validateAnswer = async (ctx, next) => {
   const answer = trim(ctx.request.body);
 

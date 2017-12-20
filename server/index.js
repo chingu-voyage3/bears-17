@@ -31,6 +31,7 @@ router
   .get('/api/questions', QuestionController.getQuestions)
   .get('/api/questions/random/:limit?', QuestionController.getRandomQuestions)
   .get('/api/question/:id', QuestionController.getId)
+  .get('/api/answers/:id', AnswerController.findAnswersById)
   .post('/api/answer', AnswerController.validateAnswer, AnswerController.addAnswer);
 
 app
