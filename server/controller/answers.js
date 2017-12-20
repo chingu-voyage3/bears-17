@@ -50,7 +50,7 @@ exports.validateAnswer = async (ctx, next) => {
     .then(res => res)
     .catch((err) => {
       console.error(err);
-      return { err, message: 'error validating your answer, please try again.' };
+      return { err: err.details.message };
     });
 
   if (result.err) {
