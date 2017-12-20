@@ -35,9 +35,16 @@ exports.findAnswersById = async (ctx) => {
   const SORT_BYS = ['votes', 'submitted_at'];
   const { id: question_id } = ctx.params;
   let {
+    limit = 10,
+    page = 1,
     sort = -1,
     sort_by = 'submitted_at',
   } = ctx.request.query;
+
+  limit = parseInt(limit, 10);
+  limit = Number.isInteger(limit) ? limit : 10;
+
+  const skip = (page - 1) * limit;
 
   if (!SORT_BYS.includes(sort_by)) {
     ctx.body = { err: `'${sort_by}' is not a valid value for 'sort_by'` };
@@ -51,6 +58,8 @@ exports.findAnswersById = async (ctx) => {
 
   await Answer.find({ question_id })
     .sort({ [sort_by]: sort })
+    .skip(skip)
+    .limit(limit)
     .then((res) => {
       if (res.length === 0) {
         // is it really an error?
