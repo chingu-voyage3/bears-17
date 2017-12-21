@@ -60,14 +60,14 @@ exports.markSpam = async (ctx) => {
       const updates = userMarked
         ? { $pull: { spam: ctx.user.id } }
         : { $addToSet: { spam: ctx.user.id } };
-      console.log('data: ', data);
-      await Question.update({ _id: ctx.params.id }, updates).then((res) => {
-        ctx.body = res;
-      }).catch((err) => {
-        ctx.body = err;
-      });
+
+      await Question.update({ _id: ctx.params.id }, updates)
+        .then((res) => {
+          ctx.body = res;
+        }).catch((err) => {
+          ctx.body = err;
+        });
     }).catch((err) => {
       ctx.body = err;
     });
-  return ctx.body;
 };
