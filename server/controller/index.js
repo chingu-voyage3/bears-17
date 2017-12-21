@@ -1,5 +1,5 @@
 const Question = require('../models/question.js');
-const ObjectId = require('mongodb').ObjectId;
+//const ObjectId = require('mongodb').ObjectId;
 
 exports.addQuestion = async (ctx) => {
   const question = ctx.request.body;
@@ -51,13 +51,30 @@ exports.getId = async (ctx) => {
 
 exports.markSpam = async (ctx) => {
   ctx.user = { id: '5a2ff257fc13ae6d59000535' };
-  await Question.update({ _id: ObjectId(ctx.params.id)},
-    { $addToSet: { spam: ctx.user.id } }, { upsert: true },
-  ).then((data) => {
-    ctx.body = data;
-    return ctx.body;
-  })
-    .catch((err) => {
-      console.log(err);
-    });
+  if (!ctx.user) {
+    return ctx.body = "Not authourized";
+  }
+  await Question.findOne({ _id: ctx.params.id}).then((data) => {
+    let resp;
+    if (data.spam.includes(ctx.user.id)) {
+      resp = Question.update({ _id: ctx.params.id },
+        { $pull: { spam: ctx.user.id } },
+      ).then((res) => {
+        ctx.body = res;
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
+    else {
+      resp = Question.update({ _id: ctx.params.id },
+        { $addToSet: { spam: ctx.user.id } }, { upsert: true },
+      ).then((res) => {
+        ctx.body = res;
+      })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    return resp;
+  });
 };
