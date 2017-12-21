@@ -1,5 +1,4 @@
 const Question = require('../models/question.js');
-//const ObjectId = require('mongodb').ObjectId;
 
 exports.addQuestion = async (ctx) => {
   const question = ctx.request.body;
