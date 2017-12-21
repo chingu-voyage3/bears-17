@@ -9,13 +9,16 @@ const app = new Koa();
 const router = new Router();
 
 const port = process.env.API_PORT || 3000;
+const db = process.env.NODE_ENV === 'test'
+  ? process.env.DB_TEST
+  : process.env.DB_URL;
 
 // Promise Library for mongoose
 mongoose.Promise = require('bluebird');
 
-mongoose.connect(process.env.DB_URL, { useMongoClient: true })
+mongoose.connect(db, { useMongoClient: true })
   .then((res) => {
-    console.log('Mongoose connected');
+    console.log('Mongoose connected to', db);
   })
   .catch((err) => {
     console.log('Error Connecting');
@@ -38,7 +41,10 @@ app
   .use(router.routes())
   .use(router.allowedMethods());
 
+module.exports = app;
 
-app.listen(port, () => {
-  console.log(`Server is listening on http://localhost:${port}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(port, () => {
+    console.log(`Server is listening on http://localhost:${port}`);
+  });
+}

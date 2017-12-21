@@ -31,12 +31,38 @@ exports.addAnswer = async (ctx) => {
 };
 
 exports.findAnswersById = async (ctx) => {
+  const SORTS = [-1, 1, '-1', '1'];
+  const SORT_BYS = ['votes', 'submitted_at'];
   const { id: question_id } = ctx.params;
+  let {
+    limit = 10,
+    page = 1,
+    sort = -1,
+    sort_by = 'submitted_at',
+  } = ctx.request.query;
+
+  limit = parseInt(limit, 10);
+  limit = Number.isInteger(limit) ? limit : 10;
+
+  const skip = (page - 1) * limit;
+
+  if (!SORT_BYS.includes(sort_by)) {
+    ctx.body = { err: `'${sort_by}' is not a valid value for 'sort_by'` };
+    return ctx.body;
+  }
+
+  if (!SORTS.includes(sort)) {
+    ctx.body = { err: `'${sort}' is not a valid value for 'sort'` };
+    return ctx.body;
+  }
 
   await Answer.find({ question_id })
+    .sort({ [sort_by]: sort })
+    .skip(skip)
+    .limit(limit)
     .then((res) => {
       if (res.length === 0) {
-        ctx.body = { err: 'No Answers with that ID' };
+        ctx.body = page > 1 ? { err: "Page doesn't exist" } : [];
         return ctx.body;
       }
 
