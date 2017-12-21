@@ -29,7 +29,10 @@
   },
   "dependencies": {
     "bluebird": "^3.5.1",
+    "deep-trim-node": "^1.1.2",
     "dotenv": "^4.0.0",
+    "eko-joi-objectid": "^1.0.2",
+    "joi": "^13.0.2",
     "koa": "^2.4.1",
     "koa-body": "^2.5.0",
     "koa-router": "^7.3.0",
