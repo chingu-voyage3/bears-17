@@ -51,29 +51,29 @@ exports.getId = async (ctx) => {
 exports.markSpam = async (ctx) => {
   ctx.user = { id: '5a2ff257fc13ae6d59000535' };
   if (!ctx.user) {
-    return ctx.body = "Not authourized";
+    ctx.body = 'Not authourized';
+    return ctx.body;
   }
-  await Question.findOne({ _id: ctx.params.id}).then((data) => {
-    let resp;
-    if (data.spam.includes(ctx.user.id)) {
-      resp = Question.update({ _id: ctx.params.id },
-        { $pull: { spam: ctx.user.id } },
-      ).then((res) => {
-        ctx.body = res;
-      }).catch((err) => {
-        console.log(err);
-      });
-    }
-    else {
-      resp = Question.update({ _id: ctx.params.id },
-        { $addToSet: { spam: ctx.user.id } }, { upsert: true },
-      ).then((res) => {
-        ctx.body = res;
-      })
-        .catch((err) => {
+  await Question.findOne({ _id: ctx.params.id})
+    .then(async (data) => {
+      if (data.spam.includes(ctx.user.id)) {
+        await Question.update({ _id: ctx.params.id },
+          { $pull: { spam: ctx.user.id } },
+        ).then((res) => {
+          ctx.body = res;
+        }).catch((err) => {
           console.log(err);
         });
-    }
-    return resp;
-  });
+      }
+      else {
+        await Question.update({ _id: ctx.params.id },
+          { $addToSet: { spam: ctx.user.id } }, { upsert: true },
+        ).then((res) => {
+          ctx.body = res;
+        })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    });
 };
