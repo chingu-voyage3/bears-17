@@ -80,21 +80,13 @@ exports.flag = async (ctx) => {
       )
         .then((answer) => {
           ctx.body = answer;
-          return ctx.body;
         })
-        .catch((err) => {
-          ctx.body = {
-            error: err,
-          };
-          return ctx.body;
-        });
     })
-    .catch((err) => {
-      ctx.body = {
-        error: err,
-      };
-      return ctx.body;
+    .catch((error) => {
+      ctx.body = { error };
     });
+
+    return ctx.body;
 };
 
 exports.validateAnswer = async (ctx, next) => {
