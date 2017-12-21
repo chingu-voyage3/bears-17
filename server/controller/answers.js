@@ -62,9 +62,7 @@ exports.findAnswersById = async (ctx) => {
     .limit(limit)
     .then((res) => {
       if (res.length === 0) {
-        // is it really an error?
-        // shouldn't we just return an empty array?
-        ctx.body = { err: 'No answers found with that question ID' };
+        ctx.body = page > 1 ? { err: "Page doesn't exist" } : [];
         return ctx.body;
       }
 

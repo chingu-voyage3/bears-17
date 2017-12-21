@@ -33,6 +33,12 @@ Array [
 ]
 `;
 
+exports[`GET /api/answers/:id should return an error if page has no items 1`] = `
+Object {
+  "err": "Page doesn't exist",
+}
+`;
+
 exports[`GET /api/answers/:id should return an error if sort value is not valid 1`] = `
 Object {
   "err": "'2' is not a valid value for 'sort'",

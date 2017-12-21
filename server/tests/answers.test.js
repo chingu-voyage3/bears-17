@@ -98,4 +98,12 @@ describe('GET /api/answers/:id', () => {
     expect(response.type).toEqual('application/json');
     expect(response.body).toMatchSnapshot();
   });
+
+  it('should return an error if page has no items', async () => {
+    const url = `/api/answers/5a2ff186fc13ae7095000649?page=5`;
+    const response = await request(app.callback()).get(url);
+    expect(response.status).toEqual(200);
+    expect(response.type).toEqual('application/json');
+    expect(response.body).toMatchSnapshot();
+  });
 });
