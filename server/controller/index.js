@@ -48,21 +48,61 @@ exports.getId = async (ctx) => {
 };
 
 exports.vote = async (ctx) => {
-  await Question.findOneAndUpdate(
-    { _id: ctx.params.id },
-    { $inc: { votes: 1 } },
-    { new: true },
-  )
-    .then((res) => {
-      if (res) {
-        ctx.body = res;
+  const { user_id } = ctx.request.body;
+
+  if (!user_id) {
+    ctx.body = { error: 'user_id is required' };
+    return ctx.body;
+  }
+
+  await Question.findOne({ _id: ctx.params.id })
+    .then(async (res) => {
+      if (!res) {
+        ctx.body = { error: 'Question ID not found' };
         return ctx.body;
       }
 
-      ctx.body = {
-        error: 'Question ID not found',
-      };
-      return ctx.body;
+      const userVoted = res.voted_by.includes(user_id);
+
+      if (userVoted) {
+        await Question.findOneAndUpdate(
+          { _id: ctx.params.id },
+          {
+            $pull: { voted_by: user_id },
+            $inc: { votes: -1 },
+          },
+          { new: true },
+        )
+          .then((question) => {
+            ctx.body = question;
+            return ctx.body;
+          })
+          .catch((err) => {
+            ctx.body = {
+              error: err,
+            };
+            return ctx.body;
+          });
+      } else {
+        await Question.findOneAndUpdate(
+          { _id: ctx.params.id },
+          {
+            $addToSet: { voted_by: user_id },
+            $inc: { votes: 1 },
+          },
+          { new: true },
+        )
+          .then((question) => {
+            ctx.body = question;
+            return ctx.body;
+          })
+          .catch((err) => {
+            ctx.body = {
+              error: err,
+            };
+            return ctx.body;
+          });
+      }
     })
     .catch((err) => {
       ctx.body = {
