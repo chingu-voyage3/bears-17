@@ -57,7 +57,10 @@ exports.flag = async (ctx) => {
     return ctx.body;
   }
 
-  await Answer.findOne({ _id: ctx.params.id })
+  await Answer.findOne(
+    { _id: ctx.params.id },
+    '-_id flagged_by',
+  )
     .then(async (res) => {
       if (!res) {
         ctx.body = { error: 'Answer ID not found' };
