@@ -64,45 +64,31 @@ exports.vote = async (ctx) => {
 
       const userVoted = res.voted_by.includes(user_id);
 
-      if (userVoted) {
-        await Question.findOneAndUpdate(
-          { _id: ctx.params.id },
-          {
-            $pull: { voted_by: user_id },
-            $inc: { votes: -1 },
-          },
-          { new: true },
-        )
-          .then((question) => {
-            ctx.body = question;
-            return ctx.body;
-          })
-          .catch((err) => {
-            ctx.body = {
-              error: err,
-            };
-            return ctx.body;
-          });
-      } else {
-        await Question.findOneAndUpdate(
-          { _id: ctx.params.id },
-          {
-            $addToSet: { voted_by: user_id },
-            $inc: { votes: 1 },
-          },
-          { new: true },
-        )
-          .then((question) => {
-            ctx.body = question;
-            return ctx.body;
-          })
-          .catch((err) => {
-            ctx.body = {
-              error: err,
-            };
-            return ctx.body;
-          });
-      }
+      const updates = userVoted
+        ? {
+          $pull: { voted_by: user_id },
+          $inc: { votes: -1 },
+        }
+        : {
+          $addToSet: { voted_by: user_id },
+          $inc: { votes: 1 },
+        };
+
+      await Question.findOneAndUpdate(
+        { _id: ctx.params.id },
+        updates,
+        { new: true },
+      )
+        .then((question) => {
+          ctx.body = question;
+          return ctx.body;
+        })
+        .catch((err) => {
+          ctx.body = {
+            error: err,
+          };
+          return ctx.body;
+        });
     })
     .catch((err) => {
       ctx.body = {
