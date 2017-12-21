@@ -1,0 +1,21 @@
+const mongoose = require('mongoose');
+
+const answerSchema = mongoose.Schema(
+  {
+    question_id: { type: mongoose.Schema.Types.ObjectId, required: true },
+    body: { type: String, required: true },
+    votes: { type: Number, default: 0 },
+    author: {
+      _id: String,
+      name: String,
+      avatar: String,
+    },
+  },
+  {
+    timestamps: { createdAt: 'submitted_at', updatedAt: 'updated_at' },
+  },
+);
+
+const answerModel = mongoose.model('Answer', answerSchema);
+
+module.exports = answerModel;
