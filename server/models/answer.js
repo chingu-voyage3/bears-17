@@ -5,7 +5,7 @@ const answerSchema = mongoose.Schema(
     question_id: { type: mongoose.Schema.Types.ObjectId, required: true },
     body: { type: String, required: true },
     votes: { type: Number, default: 0 },
-    flagged_by: { type: Array, default: [] },
+    flagged_by: Array,
     author: {
       _id: String,
       name: String,
