@@ -56,24 +56,18 @@ exports.markSpam = async (ctx) => {
   }
   await Question.findOne({ _id: ctx.params.id})
     .then(async (data) => {
-      if (data.spam.includes(ctx.user.id)) {
-        await Question.update({ _id: ctx.params.id },
-          { $pull: { spam: ctx.user.id } },
-        ).then((res) => {
-          ctx.body = res;
-        }).catch((err) => {
-          console.log(err);
-        });
-      }
-      else {
-        await Question.update({ _id: ctx.params.id },
-          { $addToSet: { spam: ctx.user.id } }, { upsert: true },
-        ).then((res) => {
-          ctx.body = res;
-        })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
+      const userMarked = data.spam.includes(ctx.user.id);
+      const updates = userMarked
+        ? { $pull: { spam: ctx.user.id } }
+        : { $addToSet: { spam: ctx.user.id } };
+      console.log('data: ', data);
+      await Question.update({ _id: ctx.params.id }, updates).then((res) => {
+        ctx.body = res;
+      }).catch((err) => {
+        ctx.body = err;
+      });
+    }).catch((err) => {
+      ctx.body = err;
     });
+  return ctx.body;
 };
