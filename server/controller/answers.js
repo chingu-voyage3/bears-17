@@ -49,6 +49,57 @@ exports.findAnswersById = async (ctx) => {
     });
 };
 
+exports.vote = async (ctx) => {
+  const { user_id } = ctx.request.body;
+
+  if (!user_id) {
+    ctx.body = { error: 'user_id is required' };
+    return ctx.body;
+  }
+
+  await Answer.findOne({ _id: ctx.params.id })
+    .then(async (res) => {
+      if (!res) {
+        ctx.body = { error: 'Answer ID not found' };
+        return ctx.body;
+      }
+
+      const userVoted = res.voted_by.includes(user_id);
+
+      const updates = userVoted
+        ? {
+          $pull: { voted_by: user_id },
+          $inc: { votes: -1 },
+        }
+        : {
+          $addToSet: { voted_by: user_id },
+          $inc: { votes: 1 },
+        };
+
+      await Answer.findOneAndUpdate(
+        { _id: ctx.params.id },
+        updates,
+        { new: true },
+      )
+        .then((answer) => {
+          ctx.body = answer;
+          return ctx.body;
+        })
+        .catch((err) => {
+          ctx.body = {
+            error: err,
+          };
+          return ctx.body;
+        });
+    })
+    .catch((err) => {
+      ctx.body = {
+        error: err,
+      };
+      return ctx.body;
+    });
+};
+
 exports.validateAnswer = async (ctx, next) => {
   const answer = trim(ctx.request.body);
 
