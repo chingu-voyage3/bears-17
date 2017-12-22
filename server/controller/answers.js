@@ -83,7 +83,10 @@ exports.vote = async (ctx) => {
     return ctx.body;
   }
 
-  await Answer.findOne({ _id: ctx.params.id })
+  await Answer.findOne(
+    { _id: ctx.params.id },
+    '-_id voted_by',
+  )
     .then(async (res) => {
       if (!res) {
         ctx.body = { error: 'Answer ID not found' };
@@ -109,21 +112,13 @@ exports.vote = async (ctx) => {
       )
         .then((answer) => {
           ctx.body = answer;
-          return ctx.body;
         })
-        .catch((err) => {
-          ctx.body = {
-            error: err,
-          };
-          return ctx.body;
-        });
     })
-    .catch((err) => {
-      ctx.body = {
-        error: err,
-      };
-      return ctx.body;
+    .catch((error) => {
+      ctx.body = { error };
     });
+
+    return ctx.body;
 };
 
 exports.validateAnswer = async (ctx, next) => {
