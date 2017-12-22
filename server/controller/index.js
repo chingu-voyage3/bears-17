@@ -67,6 +67,10 @@ exports.markSpam = async (ctx) => {
   }
   await Question.findOne({ _id: ctx.params.id})
     .then(async (data) => {
+      if(!data) {
+        ctx.body = { error: 'The question not found' };
+        return ctx.body;
+      }
       const userMarked = data.spam.includes(ctx.user.id);
       const updates = userMarked
         ? { $pull: { spam: ctx.user.id } }
