@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`FormatDate should match the snapshot 1`] = `
-<time
-  dateTime="2017-12-14T22:43:56.069Z"
->
-  Dec 14, 10:43 PM
-</time>
-`;
