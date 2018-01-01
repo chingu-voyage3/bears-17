@@ -2,8 +2,11 @@ const Koa = require('koa');
 const koaBody = require('koa-body');
 const mongoose = require('mongoose');
 const Router = require('koa-router');
+const passport = require('koa-passport');
 const QuestionController = require('./controller/index.js');
-const AnswerController = require('./controller/answers.js')
+const AnswerController = require('./controller/answers.js');
+const AuthController = require('./controller/auth.js');
+
 
 const app = new Koa();
 const router = new Router();
@@ -27,6 +30,10 @@ mongoose.connect(db, { useMongoClient: true })
 
 app.use(koaBody());
 
+// authentication
+app.use(passport.initialize());
+app.use(passport.session());
+
 router
   .get('/', async (ctx) => {
     ctx.body = 'Hello Koa';
@@ -37,7 +44,8 @@ router
   .post('/api/question/:id/vote', QuestionController.vote)
   .get('/api/answers/:id', AnswerController.findAnswersById)
   .post('/api/answer', AnswerController.validateAnswer, AnswerController.addAnswer)
-  .post('/api/answer/:id/flag', AnswerController.flag);
+  .post('/api/answer/:id/flag', AnswerController.flag)
+  .post('/auth/local', AuthController.authLocal);
 
 app
   .use(router.routes())
