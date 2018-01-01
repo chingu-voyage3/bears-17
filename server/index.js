@@ -45,7 +45,7 @@ router
   .get('/api/answers/:id', AnswerController.findAnswersById)
   .post('/api/answer', AnswerController.validateAnswer, AnswerController.addAnswer)
   .post('/api/answer/:id/flag', AnswerController.flag)
-  .post('/auth/local', AuthController.authLocal);
+  .post('/api/login', AuthController.authLocal);
 
 app
   .use(router.routes())
