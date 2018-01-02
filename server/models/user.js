@@ -12,7 +12,7 @@ const userSchema = mongoose.Schema({
   introduction: String,
 });
 
-userSchema.pre(save, function saltPass (next) {
+userSchema.pre('save', function saltPass (next) {
   const user = this;
 
   if (!user.isModified('password')) return next();
