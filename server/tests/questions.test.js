@@ -8,7 +8,7 @@ describe('Test mongoose models', () => {
   let question;
 
   beforeAll(() => {
-    mongoose.connect(process.env.TEST_DB)
+    mongoose.connect(process.env.DB_TEST)
       .then(() => {
         console.log('Connected');
       });

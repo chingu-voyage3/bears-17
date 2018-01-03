@@ -31,12 +31,38 @@ exports.addAnswer = async (ctx) => {
 };
 
 exports.findAnswersById = async (ctx) => {
+  const SORTS = [-1, 1, '-1', '1'];
+  const SORT_BYS = ['votes', 'submitted_at'];
   const { id: question_id } = ctx.params;
+  let {
+    limit = 10,
+    page = 1,
+    sort = -1,
+    sort_by = 'submitted_at',
+  } = ctx.request.query;
+
+  limit = parseInt(limit, 10);
+  limit = Number.isInteger(limit) ? limit : 10;
+
+  const skip = (page - 1) * limit;
+
+  if (!SORT_BYS.includes(sort_by)) {
+    ctx.body = { err: `'${sort_by}' is not a valid value for 'sort_by'` };
+    return ctx.body;
+  }
+
+  if (!SORTS.includes(sort)) {
+    ctx.body = { err: `'${sort}' is not a valid value for 'sort'` };
+    return ctx.body;
+  }
 
   await Answer.find({ question_id })
+    .sort({ [sort_by]: sort })
+    .skip(skip)
+    .limit(limit)
     .then((res) => {
       if (res.length === 0) {
-        ctx.body = { err: 'No Answers with that ID' };
+        ctx.body = page > 1 ? { err: "Page doesn't exist" } : [];
         return ctx.body;
       }
 
@@ -47,6 +73,46 @@ exports.findAnswersById = async (ctx) => {
       ctx.body = { err: err.message };
       return ctx.body;
     });
+};
+
+exports.flag = async (ctx) => {
+  const { user_id } = ctx.request.body;
+
+  if (!user_id) {
+    ctx.body = { error: 'user_id is required' };
+    return ctx.body;
+  }
+
+  await Answer.findOne(
+    { _id: ctx.params.id },
+    '-_id flagged_by',
+  )
+    .then(async (res) => {
+      if (!res) {
+        ctx.body = { error: 'Answer ID not found' };
+        return ctx.body;
+      }
+
+      const userFlagged = res.flagged_by.includes(user_id);
+
+      const updates = userFlagged
+        ? { $pull: { flagged_by: user_id } }
+        : { $addToSet: { flagged_by: user_id } };
+
+      await Answer.findOneAndUpdate(
+        { _id: ctx.params.id },
+        updates,
+        { new: true },
+      )
+        .then((answer) => {
+          ctx.body = answer;
+        })
+    })
+    .catch((error) => {
+      ctx.body = { error };
+    });
+
+    return ctx.body;
 };
 
 exports.validateAnswer = async (ctx, next) => {
