@@ -4,8 +4,8 @@ const questionSchema = mongoose.Schema(
   {
     title: { type: String, required: true },
     body: String,
-    votes: {type: Number, default: 0 },
-    voted_by: { type: Array, default: [] },
+    votes: Number,
+    spam: Array,
     author: {
       name: { type: String, required: true },
       avatar: String,
