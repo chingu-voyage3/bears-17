@@ -1,6 +1,7 @@
 const passport = require('koa-passport');
 const User = require('../models/user.js');
-const LocalStrategy = require("passport-local").Strategy;
+const LocalStrategy = require('passport-local').Strategy;
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 passport.serializeUser((user, done) => {
   done(null, user);
@@ -29,3 +30,16 @@ passport.use(new LocalStrategy(((username, password, done) => {
     });
   });
 })));
+
+passport.use(new GoogleStrategy(
+  {
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: 'http://localhost:3000/api/auth/google/callback',
+  },
+function(accessToken, refreshToken, profile, cb) {
+  // User.findOne({  })
+  console.log(accessToken, refreshToken)
+  console.log('profile', profile)
+}
+));
