@@ -55,7 +55,15 @@ router
   .post('/api/login', passport.authenticate('local', {
     successRedirect: '/dashboard',
     failureRedirect: '/',
-  }));
+  }))
+  .get('/api/auth/google',
+    passport.authenticate('google', { scope: 'https://www.googleapis.com/auth/userinfo.profile' }))
+  .get('/api/auth/google/callback',
+    passport.authenticate('google', {
+      successRedirect: '/dashboard',
+      failureRedirect: '/login',
+    }),
+  );
 
 app
   .use(router.routes())

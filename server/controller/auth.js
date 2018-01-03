@@ -37,9 +37,19 @@ passport.use(new GoogleStrategy(
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: 'http://localhost:3000/api/auth/google/callback',
   },
-function(accessToken, refreshToken, profile, cb) {
-  // User.findOne({  })
+  function (accessToken, refreshToken, profile, done) {
+    User.findOne({ name: profile.displayName })
+     .then((res) => {
+      if(!res) {
+         const user = new User({ name: profile.displayName });
+         user.save();
+         return done(null, user);
+      }
+      return done(null, res);
+  });
+
   console.log(accessToken, refreshToken)
   console.log('profile', profile)
+  done(null, {name: 'test'})
 }
 ));
