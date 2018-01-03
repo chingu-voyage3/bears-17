@@ -58,31 +58,20 @@ exports.getId = async (ctx) => {
     });
 };
 
-
 exports.markSpam = async (ctx) => {
-  ctx.user = { id: '5a2ff257fc13ae6d59000535' };
-  if (!ctx.user) {
-    ctx.body = 'Not authourized';
+  const user = ctx.state.user.id;
+  if (!user) {
+    ctx.body = 'Not authorized';
     return ctx.body;
   }
-  await Question.findOne({ _id: ctx.params.id})
-    .then(async (data) => {
-      if(!data) {
-        ctx.body = { error: 'The question not found' };
-        return ctx.body;
-      }
-      const userMarked = data.spam.includes(ctx.user.id);
-      const updates = userMarked
-        ? { $pull: { spam: ctx.user.id } }
-        : { $addToSet: { spam: ctx.user.id } };
-
-      await Question.update({ _id: ctx.params.id }, updates)
-        .then((res) => {
-          ctx.body = res;
-        }).catch((err) => {
-          ctx.body = err;
-        });
-    }).catch((err) => {
-      ctx.body = err;
-    });
+  const doc = await Question.findOne({ _id: ctx.params.id })
+    .then((data) => data )
+    .catch((err) => err.message);
+  const userMarked = doc.spam.includes(user);
+  const updates = userMarked
+    ? { $pull: { spam: user } }
+    : { $addToSet: { spam: user } };
+  return doc.update(updates)
+    .then(res => ctx.body = res)
+    .catch(err => ctx.body = err.message);
 };
