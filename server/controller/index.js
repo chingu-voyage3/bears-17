@@ -65,8 +65,8 @@ exports.markSpam = async (ctx) => {
     return ctx.body;
   }
   const doc = await Question.findOne({ _id: ctx.params.id })
-    .then((data) => data )
-    .catch((err) => err.message);
+    .then(data => data )
+    .catch(err => err.message);
   const userMarked = doc.spam.includes(user);
   const updates = userMarked
     ? { $pull: { spam: user } }
