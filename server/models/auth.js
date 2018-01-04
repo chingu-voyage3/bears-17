@@ -26,6 +26,12 @@ let authSchema = mongoose.Schema({
     email: String,
     name: String,
   },
+  github: {
+    id: String,
+    token: String,
+    name: String,
+    email: String,
+  },
 });
 
 authSchema.methods.generateHash = function(password) {
