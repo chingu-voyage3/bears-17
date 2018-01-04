@@ -66,15 +66,21 @@ exports.markSpam = async (ctx) => {
     return ctx.body;
   }
   const doc = await Question.findOne({ _id: ctx.params.id })
-    .then(data => data )
+    .then(data => data)
     .catch(err => err.message);
   const userMarked = doc.spam.includes(user);
   const updates = userMarked
     ? { $pull: { spam: user } }
     : { $addToSet: { spam: user } };
   return doc.update(updates)
-    .then(res => ctx.body = res)
-    .catch(err => ctx.body = err.message);
+    .then((res) => {
+      ctx.body = res;
+      return ctx.body;
+    })
+    .catch((err) => {
+      ctx.body = err.message;
+      return ctx.body;
+    });
 };
 
 exports.vote = async (ctx) => {
