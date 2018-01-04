@@ -50,9 +50,20 @@ router
   .get('/api/question/:id', QuestionController.getId)
   .post('/api/question/:id/vote', QuestionController.vote)
   .get('/api/answers/:id', AnswerController.findAnswersById)
-  .post('/api/answer', AnswerController.validateAnswer, AnswerController.addAnswer)
+  .post(
+    '/api/answer',
+    AnswerController.validateAnswer,
+    AnswerController.addAnswer,
+  )
   .post('/api/answer/:id/flag', AnswerController.flag)
-  .post('/api/login', passport.authenticate('local', {
+  .post(
+    '/api/login',
+    passport.authenticate('local', {
+      successRedirect: '/dashboard',
+      failureRedirect: '/',
+    }),
+  )
+  .post('/api/register', passport.authenticate('local-register', {
     successRedirect: '/dashboard',
     failureRedirect: '/',
   }));

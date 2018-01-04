@@ -1,44 +1,49 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
-let authSchema = mongoose.Schema({
-  local: {
-    name: String,
-    email: String,
-    password: String,
+const authSchema = mongoose.Schema(
+  {
+    local: {
+      name: String,
+      email: String,
+      password: String,
+    },
+    facebook: {
+      id: String,
+      token: String,
+      email: String,
+      name: String,
+      username: String,
+    },
+    twitter: {
+      id: String,
+      token: String,
+      displayName: String,
+      username: String,
+    },
+    google: {
+      id: String,
+      token: String,
+      email: String,
+      name: String,
+    },
+    github: {
+      id: String,
+      token: String,
+      name: String,
+      email: String,
+    },
   },
-  facebook: {
-    id: String,
-    token: String,
-    email: String,
-    name: String,
-    username: String,
+  {
+    timestamps: { createdAt: 'submitted_at', updatedAt: 'updated_at' },
   },
-  twitter: {
-    id: String,
-    token: String,
-    displayName: String,
-    username: String,
-  },
-  google: {
-    id: String,
-    token: String,
-    email: String,
-    name: String,
-  },
-  github: {
-    id: String,
-    token: String,
-    name: String,
-    email: String,
-  },
-});
+);
 
-authSchema.methods.generateHash = function(password) {
+authSchema.methods.generateHash = function (password) {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
 };
 
-authSchema.methods.validPassword = function(password) {
+authSchema.methods.validPassword = function (password) {
   return bcrypt.compareSync(password, this.local.password);
 };
 

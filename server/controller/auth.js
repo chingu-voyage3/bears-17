@@ -23,3 +23,24 @@ passport.use(new LocalStrategy(((username, password, done) => {
     return done(null, user);
   });
 })));
+
+passport.use(
+  'local-register',
+  new LocalStrategy((username, password, done) => {
+    Auth.findOne({ 'local.name': username }, (err, user) => {
+      if (!user) {
+        const newUser = new Auth({
+          local: {
+            name: username,
+            password: this.generateHash(password),
+          },
+        });
+
+        newUser.save();
+        return done(null, newUser);
+      }
+
+      return done(null, false);
+    });
+  }),
+);
