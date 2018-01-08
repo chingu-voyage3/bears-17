@@ -10,7 +10,8 @@ passport.deserializeUser((user, done) => {
   done(null, user);
 });
 
-passport.use(new LocalStrategy(((username, password, done) => {
+passport.use(new LocalStrategy('local', ((username, password, done) => {
+  console.log('other local strat');
   Auth.findOne({ 'local.name': username }, (err, user) => {
     if (!user) {
       return done(null, false);
@@ -28,18 +29,23 @@ passport.use(
   'local-register',
   new LocalStrategy((username, password, done) => {
     Auth.findOne({ 'local.name': username }, (err, user) => {
+      console.log(user, 'this is Auth.findOne results');
       if (!user) {
-        const newUser = new Auth({
+        const newAuth = new Auth({
           local: {
             name: username,
-            password: this.generateHash(password),
+            password,
           },
         });
 
-        newUser.save();
-        return done(null, newUser);
+        return newAuth.save((error) => {
+          if (error) {
+            console.log(error, 'error during newUser Save');
+            return done(null, false);
+          }
+          return done(null, newAuth);
+        });
       }
-
       return done(null, false);
     });
   }),
