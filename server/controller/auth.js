@@ -28,7 +28,6 @@ passport.use(
   'local-register',
   new LocalStrategy((username, password, done) => {
     Auth.findOne({ 'local.name': username }, (err, user) => {
-      console.log(user, 'this is Auth.findOne results');
       if (!user) {
         const newAuth = new Auth({
           local: {
