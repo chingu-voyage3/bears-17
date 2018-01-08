@@ -107,3 +107,92 @@ describe('GET /api/answers/:id', () => {
     expect(response.body).toMatchSnapshot();
   });
 });
+
+describe('POST /api/answer/:id/flag', () => {
+  const user_id = '5a3b95107ec0f5d96cf4cbe3';
+  let answer;
+
+  beforeEach(() => {
+    answer = new Answer(answers[0])
+    return answer.save();
+  });
+
+  afterEach(() => {
+    return Answer.remove({}).exec();
+  });
+
+  it('should return an error message if answer ID does not exist', async () => {
+    const url = `/api/answer/${answers[1]._id}/flag`;
+    const response = await request(app.callback())
+      .post(url)
+      .send({ user_id });
+
+    expect(response.status).toEqual(200);
+    expect(response.type).toEqual('application/json');
+    // TODO: we should use constants for error messages and assert them here
+    expect(response.body.error).toBeTruthy();
+  });
+
+  it('should return an error message if answer ID is not valid', async () => {
+    const url = '/api/answer/invalidAnswerID/flag';
+    const response = await request(app.callback())
+      .post(url)
+      .send({ user_id });
+
+    expect(response.status).toEqual(200);
+    expect(response.type).toEqual('application/json');
+    expect(response.body.error).toBeTruthy();
+  });
+
+  it('should return an error message if user ID not provided', async () => {
+    const url = `/api/answer/${answer._id}/flag`;
+    const response = await request(app.callback())
+      .post(url);
+
+    expect(response.status).toEqual(200);
+    expect(response.type).toEqual('application/json');
+    expect(response.body.error).toBeTruthy();
+  });
+
+  it('should add user ID to flagged_by if user not yet flagged', async () => {
+    const answerBeforeFlag = await Answer.findOne(
+      { _id: answer._id },
+      '-_id flagged_by',
+    );
+
+    expect(answerBeforeFlag.flagged_by.length).toBe(0);
+
+    const url = `/api/answer/${answer._id}/flag`;
+    const response = await request(app.callback())
+      .post(url)
+      .send({ user_id });
+
+    expect(response.status).toEqual(200);
+    expect(response.type).toEqual('application/json');
+    expect(response.body.error).toBeFalsy();
+    expect(response.body.flagged_by.includes(user_id)).toBe(true);
+  });
+
+  it('should remove user ID from flagged_by if user already flagged', async() => {
+    const answerBeforeFlag = await Answer.findOneAndUpdate(
+      { _id: answer._id },
+      { $addToSet: { flagged_by: user_id } },
+      {
+        fields: '-_id flagged_by',
+        new: true,
+      },
+    );
+
+    expect(answerBeforeFlag.flagged_by.includes(user_id)).toBe(true);
+
+    const url = `/api/answer/${answer._id}/flag`;
+    const response = await request(app.callback())
+      .post(url)
+      .send({ user_id });
+
+    expect(response.status).toEqual(200);
+    expect(response.type).toEqual('application/json');
+    expect(response.body.error).toBeFalsy();
+    expect(response.body.flagged_by.includes(user_id)).toBe(false);
+  });
+});

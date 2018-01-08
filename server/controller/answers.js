@@ -75,6 +75,45 @@ exports.findAnswersById = async (ctx) => {
     });
 };
 
+exports.flag = async (ctx) => {
+  const { user_id } = ctx.request.body;
+
+  if (!user_id) {
+    ctx.body = { error: 'user_id is required' };
+    return ctx.body;
+  }
+
+  await Answer.findOne(
+    { _id: ctx.params.id },
+    '-_id flagged_by',
+  )
+    .then(async (res) => {
+      if (!res) {
+        ctx.body = { error: 'Answer ID not found' };
+        return ctx.body;
+      }
+
+      const userFlagged = res.flagged_by.includes(user_id);
+
+      const updates = userFlagged
+        ? { $pull: { flagged_by: user_id } }
+        : { $addToSet: { flagged_by: user_id } };
+
+      await Answer.findOneAndUpdate(
+        { _id: ctx.params.id },
+        updates,
+        { new: true }
+      ).then((answer) => {
+        ctx.body = answer;
+      });
+    })
+    .catch((error) => {
+      ctx.body = { error };
+    });
+
+  return ctx.body;
+};
+
 exports.vote = async (ctx) => {
   const { user_id } = ctx.request.body;
 

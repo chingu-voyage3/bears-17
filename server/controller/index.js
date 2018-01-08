@@ -57,3 +57,78 @@ exports.getId = async (ctx) => {
       return ctx.body;
     });
 };
+
+exports.markSpam = async (ctx) => {
+  const user = ctx.state.user.id;
+  if (!user) {
+    ctx.body = 'Not authorized';
+    return ctx.body;
+  }
+  const doc = await Question.findOne({ _id: ctx.params.id })
+    .then(data => data)
+    .catch(err => err.message);
+  const userMarked = doc.spam.includes(user);
+  const updates = userMarked
+    ? { $pull: { spam: user } }
+    : { $addToSet: { spam: user } };
+  return doc.update(updates)
+    .then((res) => {
+      ctx.body = res;
+      return ctx.body;
+    })
+    .catch((err) => {
+      ctx.body = err.message;
+      return ctx.body;
+    });
+};
+
+exports.vote = async (ctx) => {
+  const { user_id } = ctx.request.body;
+
+  if (!user_id) {
+    ctx.body = { error: 'user_id is required' };
+    return ctx.body;
+  }
+
+  await Question.findOne({ _id: ctx.params.id })
+    .then(async (res) => {
+      if (!res) {
+        ctx.body = { error: 'Question ID not found' };
+        return ctx.body;
+      }
+
+      const userVoted = res.voted_by.includes(user_id);
+
+      const updates = userVoted
+        ? {
+          $pull: { voted_by: user_id },
+          $inc: { votes: -1 },
+        }
+        : {
+          $addToSet: { voted_by: user_id },
+          $inc: { votes: 1 },
+        };
+
+      await Question.findOneAndUpdate(
+        { _id: ctx.params.id },
+        updates,
+        { new: true },
+      )
+        .then((question) => {
+          ctx.body = question;
+          return ctx.body;
+        })
+        .catch((err) => {
+          ctx.body = {
+            error: err,
+          };
+          return ctx.body;
+        });
+    })
+    .catch((err) => {
+      ctx.body = {
+        error: err,
+      };
+      return ctx.body;
+    });
+};
