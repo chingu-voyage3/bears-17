@@ -38,9 +38,9 @@ passport.use(
 
         return newAuth.save((error) => {
           if (error) {
-            console.log(error, 'error during newUser Save');
             return done(null, false);
           }
+
           return done(null, newAuth);
         });
       }

@@ -41,28 +41,26 @@ const authSchema = mongoose.Schema(
   },
 );
 
-const hashPass = (next) => {
-  const auth = this;
+authSchema.pre('save', function (next) {
+  const user = this;
 
   // only hash the password if it has been modified (or is new)
-  if (!auth.isModified('local.password')) return next();
+  if (!user.isModified('local.password')) return next();
 
   // generate a salt
-  return bcrypt.genSalt(SALT_WORK_FACTOR, (err, salt) => {
+  bcrypt.genSalt(SALT_WORK_FACTOR, (err, salt) => {
     if (err) return next(err);
 
     // hash the password using our new salt
-    return bcrypt.hash(auth.local.password, salt, (error, hash) => {
-      if (err) return next(error);
+    bcrypt.hash(user.local.password, salt, (err, hash) => {
+      if (err) return next(err);
 
       // override the cleartext password with the hashed one
-      auth.local.password = hash;
-      return next();
+      user.local.password = hash;
+      next();
     });
   });
-};
-
-authSchema.pre('save', hashPass);
+});
 
 authSchema.methods.validPassword = function (password) {
   return bcrypt.compareSync(password, this.local.password);
