@@ -67,6 +67,10 @@ router
     successRedirect: '/dashboard',
     failureRedirect: '/',
   }));
+  .post('/api/answer', AnswerController.validateAnswer, AnswerController.addAnswer)
+  .post('/api/answer/:id/flag', AnswerController.flag)
+  .post('/api/questions/:id/spam', QuestionController.markSpam);
+
 
 app
   .use(router.routes())
