@@ -47,6 +47,5 @@ describe('POST /api/login', () => {
     expect(response.status).toEqual(302);
     expect(response.header.location).toEqual('/');
     expect(response.body).toEqual('Hello Koa');
-
   });
 });
