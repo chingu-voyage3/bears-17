@@ -34,18 +34,18 @@ describe('POST /api/login', () => {
     return done();
   });
 
-  it('should return a 302 redirect as well as a location of dashboard if user has logged in successfully', async () => {
+  it('should return a 200 as well and return true if user has logged in successfully', async () => {
     const url = '/api/login';
     const response = await request(app.callback()).post(url).send(loginData);
-    expect(response.status).toEqual(302);
-    expect(response.header.location).toEqual('/dashboard');
+    expect(response.status).toEqual(200);
+    expect(response.body.success).toEqual(true);
   });
 
-  if ('should return a 302 redirect to the locaation of / if user fails to login', async () => {
+  if ('should return 200 and return a false object if user fails to login', async () => {
     const url = '/api/login';
     const response = await request(app.callback()).post(url).send(failLogin);
-    expect(response.status).toEqual(302);
+    expect(response.status).toEqual(200);
     expect(response.header.location).toEqual('/');
-    expect(response.body).toEqual('Hello Koa');
+    expect(response.body.success).toEqual(false);
   });
 });
