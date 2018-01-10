@@ -2,9 +2,9 @@ const Koa = require('koa');
 const koaBody = require('koa-body');
 const mongoose = require('mongoose');
 const Router = require('koa-router');
+const session = require('koa-session');
 const QuestionController = require('./controller/index.js');
 const AnswerController = require('./controller/answers.js');
-const session = require('koa-session');
 
 const app = new Koa();
 const router = new Router();
@@ -19,6 +19,19 @@ require('./controller/auth.js');
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+function localAuth (ctx) {
+  return passport.authenticate('local', (err, user, info, status) => {
+    if (err) return err;
+    if (user === false) {
+      ctx.body = { success: false };
+      return ctx.body;
+    }
+    ctx.login(user);
+    ctx.body = { success: true };
+    return ctx.body;
+  })(ctx);
+}
 
 // Promise Library for mongoose
 mongoose.Promise = require('bluebird');
@@ -40,10 +53,12 @@ app.use(session({}, app));
 
 router
   .get('/', async (ctx) => {
+    if (ctx.isAuthenticated()) {
+      ctx.body = 'Authenticated';
+      return ctx.body;
+    }
+
     ctx.body = 'Hello Koa';
-  })
-  .get('/dashboard', async (ctx) => {
-    ctx.body = 'success';
   })
   .get('/api/questions', QuestionController.getQuestions)
   .get('/api/questions/random/:limit?', QuestionController.getRandomQuestions)
@@ -57,17 +72,14 @@ router
   )
   .post('/api/answer/:id/flag', AnswerController.flag)
   .post('/api/questions/:id/spam', QuestionController.markSpam)
-  .post(
-    '/api/login',
-    passport.authenticate('local', {
-      successRedirect: '/dashboard',
-      failureRedirect: '/',
-    }),
-  )
-  .post('/api/register', passport.authenticate('local-register', {
-    successRedirect: '/dashboard',
-    failureRedirect: '/',
-  }));
+  .post('/api/login', localAuth)
+  .post('/api/register', localAuth)
+  .get('/api/logout', (ctx) => {
+    ctx.logout();
+    ctx.bodu = { success: true };
+    return ctx.body;
+  });
+
 
 app
   .use(router.routes())
