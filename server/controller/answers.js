@@ -102,6 +102,51 @@ exports.flag = async (ctx) => {
       await Answer.findOneAndUpdate(
         { _id: ctx.params.id },
         updates,
+        { new: true }
+      ).then((answer) => {
+        ctx.body = answer;
+      });
+    })
+    .catch((error) => {
+      ctx.body = { error };
+    });
+
+  return ctx.body;
+};
+
+exports.vote = async (ctx) => {
+  const { user_id } = ctx.request.body;
+
+  if (!user_id) {
+    ctx.body = { error: 'user_id is required' };
+    return ctx.body;
+  }
+
+  await Answer.findOne(
+    { _id: ctx.params.id },
+    '-_id voted_by',
+  )
+    .then(async (res) => {
+      if (!res) {
+        ctx.body = { error: 'Answer ID not found' };
+        return ctx.body;
+      }
+
+      const userVoted = res.voted_by.includes(user_id);
+
+      const updates = userVoted
+        ? {
+          $pull: { voted_by: user_id },
+          $inc: { votes: -1 },
+        }
+        : {
+          $addToSet: { voted_by: user_id },
+          $inc: { votes: 1 },
+        };
+
+      await Answer.findOneAndUpdate(
+        { _id: ctx.params.id },
+        updates,
         { new: true },
       )
         .then((answer) => {
