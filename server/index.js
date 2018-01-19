@@ -32,6 +32,7 @@ router
     ctx.body = 'Hello Koa';
   })
   .get('/api/questions', QuestionController.getQuestions)
+  .post('/api/post/question', QuestionController.addQuestion)
   .get('/api/questions/random/:limit?', QuestionController.getRandomQuestions)
   .get('/api/question/:id', QuestionController.getId)
   .post('/api/question/:id/vote', QuestionController.vote)
