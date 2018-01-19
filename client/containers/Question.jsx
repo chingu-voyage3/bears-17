@@ -1,9 +1,13 @@
 /* eslint-disable no-underscore-dangle */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 
 import QuestionHeader from 'Components/QuestionHeader';
 import UserBar from 'Components/UserBar';
+
+import ModalButton from 'Components/ModalButton';
+import Modal from 'Components/Modal';
 
 const answers = [{
   _id: '5a2eadcafc13ae207a0001a3',
@@ -67,7 +71,13 @@ class Question extends Component {
     this.state = {
       question: {},
       answers,
+      modal: false,
+      answer: '',
     };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
   }
   componentDidMount() {
     return fetch(`/api/question/${this.props.match.params.id}`)
@@ -78,6 +88,31 @@ class Question extends Component {
         });
       });
   }
+
+  clearAnswer() {
+    this.setState({
+      answer: '',
+    });
+    this.toggleModal();
+  }
+
+  handleChange(event, input) {
+    this.setState({
+      [input]: event.target.value,
+    });
+  }
+
+  toggleModal() {
+    this.setState({
+      modal: !this.state.modal,
+    });
+  }
+
+  handleSubmit() {
+    this.clearAnswer();
+    axios.post('/api/answer', { answer: this.state.answer })
+      .then(res => res);
+  }
   render() {
     const renderedAnswers = this.state.answers.map(answer => (
       <section key={answer._id}>
@@ -87,9 +122,27 @@ class Question extends Component {
     ));
     return (
       <main>
+        {this.state.modal &&
+          <Modal
+            answer={this.state.answer}
+            handleChange={this.handleChange}
+            toggleModal={this.toggleModal}
+            handleSubmit={this.handleSubmit}
+          />}
         <QuestionHeader title={this.state.question.title} />
         <div className="wrapper">
           <p>{this.state.question.body}</p>
+          <div
+            style={{
+              display: 'flex',
+              width: '100%',
+              justifyContent: 'flex-end',
+            }}
+          >
+            <ModalButton toggleModal={this.toggleModal}>
+              Answer Question
+            </ModalButton>
+          </div>
           <h3>Answers</h3>
           {renderedAnswers}
         </div>
