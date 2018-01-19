@@ -1,14 +1,22 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
-class QuestionList extends {
+class QuestionList extends Component {
+  constructor(props) {
+    super(props);
 
-  render () {
+    this.state = {
+      name: 'hello WOrld',
+    };
+  }
+
+
+  render() {
     return (
-        <div>
-          Hello World
-        </div>
+      <div>
+        {this.state.name}
+      </div>
     );
-  };
+  }
 }
 
 export default QuestionList;
