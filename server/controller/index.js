@@ -134,9 +134,9 @@ exports.vote = async (ctx) => {
 };
 
 exports.totalQuestions = async (ctx) => {
-  Question.count({})
-    .then((res) => {
-      ctx.body = res;
-      return ctx.body;
-    });
+  console.log('RUNNING');
+  const count = await Question.count()
+    .then(res => res);
+  ctx.body = count;
+  return ctx.body;
 };
