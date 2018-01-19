@@ -1,5 +1,6 @@
 const passport = require('koa-passport');
 const TwitterStrategy = require('passport-twitter').Strategy;
+const User = require('../models/auth.js');
 
 passport.use(new TwitterStrategy({
   consumerKey: process.env.TWITTER_CONSUMER_KEY,
@@ -8,6 +9,7 @@ passport.use(new TwitterStrategy({
 },
 (token, tokenSecret, profile, cb) => {
   User.findOrCreate({ twitterId: profile.id }, (err, user) => {
+    //console.log(profile);
     return cb(err, user);
   });
 }
