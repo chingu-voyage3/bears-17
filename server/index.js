@@ -14,7 +14,7 @@ const router = new Router();
 const port = process.env.API_PORT || 3000;
 const db = process.env.NODE_ENV === 'test'
   ? process.env.DB_TEST
-  : process.env.DB_URL;
+  : process.env.DB_TEST;
 
 // Promise Library for mongoose
 mongoose.Promise = require('bluebird');
@@ -34,6 +34,18 @@ app.use(session({}, app));
 app.use(passport.initialize());
 app.use(passport.session());
 
+router.post('/custom', async (ctx) => {
+  return passport.authenticate('local', (err, user, info, status) => {
+    if (user === false) {
+      ctx.body = { success: false };
+      ctx.throw(401);
+    } else {
+      ctx.body = { success: true };
+      return ctx.login(user)
+    }
+  })(ctx)
+})
+
 router
   .get('/', async (ctx) => {
     ctx.body = 'Hello Koa';
@@ -47,10 +59,16 @@ router
   .post('/api/answer/:id/flag', AnswerController.flag)
   .post('/api/questions/:id/spam', QuestionController.markSpam)
   .get('/api/auth/twitter', passport.authenticate('twitter'))
-  .get('/api/auth/twitter/callback', passport.authenticate('twitter',
-    { failureRedirect: '/login' }), (req, res) => {
-    // Successful authentication, redirect home.
-    res.redirect('/dashboard');
+  .get('/api/auth/twitter/callback', async (ctx) => {
+    return passport.authenticate('twitter', (err, user, info, status) => {
+      if (user === false) {
+        ctx.body = { success: false };
+        ctx.throw(401);
+      } else {
+        ctx.body = { success: true };
+        return ctx.body;
+      }
+    })(ctx);
   });
 app
   .use(router.routes())

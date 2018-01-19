@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 
 const authSchema = mongoose.Schema(
   {
-    twitter: {
-      id: String,
-      displayName: String,
-      username: String,
-    },
+    id: String,
+    displayName: String,
+    username: String,
+    provider: String,
+    token: String,
   },
   {
     timestamps: { createdAt: 'submitted_at', updatedAt: 'updated_at' },
