@@ -39,7 +39,8 @@ router
   .post('/api/answer', AnswerController.validateAnswer, AnswerController.addAnswer)
   .post('/api/answer/:id/flag', AnswerController.flag)
   .post('/api/answer/:id/vote', AnswerController.vote)
-  .post('/api/questions/:id/spam', QuestionController.markSpam);
+  .post('/api/questions/:id/spam', QuestionController.markSpam)
+  .get('/api/questions/total', QuestionController.totalQuestions);
 
 app
   .use(router.routes())

@@ -132,3 +132,11 @@ exports.vote = async (ctx) => {
       return ctx.body;
     });
 };
+
+exports.totalQuestions = async (ctx) => {
+  Question.count({})
+    .then((res) => {
+      ctx.body = res;
+      return ctx.body;
+    });
+};
