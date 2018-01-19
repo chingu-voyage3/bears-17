@@ -17,16 +17,16 @@ passport.use(new TwitterStrategy(
   },
   (token, tokenSecret, profile, cb) => {
     User.findOne({ twitterId: profile.id }, (err, user) => {
-      console.log('cb: ', cb);
-      if (err) return cb(err);
+      if (err) return cb(err, false);
       else if (!user) {
         const user = new User({
-          name: profile.displayName,
+          twitterId: profile.id,
+          displayName: profile.displayName,
           username: profile.username,
           provider: 'twitter',
         });
         user.save((error) => {
-          if (error) { return cb(null, false)}
+          if (error) return cb(null, false);
           return cb(null, user);
         });
       } else {

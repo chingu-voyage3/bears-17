@@ -14,7 +14,7 @@ const router = new Router();
 const port = process.env.API_PORT || 3000;
 const db = process.env.NODE_ENV === 'test'
   ? process.env.DB_TEST
-  : process.env.DB_TEST;
+  : process.env.DB_URL;
 
 // Promise Library for mongoose
 mongoose.Promise = require('bluebird');
@@ -33,18 +33,6 @@ app.keys = [process.env.SESSION_SECRET];
 app.use(session({}, app));
 app.use(passport.initialize());
 app.use(passport.session());
-
-router.post('/custom', async (ctx) => {
-  return passport.authenticate('local', (err, user, info, status) => {
-    if (user === false) {
-      ctx.body = { success: false };
-      ctx.throw(401);
-    } else {
-      ctx.body = { success: true };
-      return ctx.login(user)
-    }
-  })(ctx)
-})
 
 router
   .get('/', async (ctx) => {

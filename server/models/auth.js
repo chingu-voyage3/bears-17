@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const authSchema = mongoose.Schema(
   {
-    id: String,
+    twitterId: String,
     displayName: String,
     username: String,
     provider: String,
