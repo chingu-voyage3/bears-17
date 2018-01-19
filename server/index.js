@@ -1,5 +1,6 @@
 const Koa = require('koa');
 const koaBody = require('koa-body');
+const session = require('koa-session');
 const mongoose = require('mongoose');
 const Router = require('koa-router');
 const QuestionController = require('./controller/index.js');
@@ -28,6 +29,10 @@ mongoose.connect(db, { useMongoClient: true })
   });
 
 app.use(koaBody());
+app.keys = [process.env.SESSION_SECRET];
+app.use(session({}, app));
+app.use(passport.initialize());
+app.use(passport.session());
 
 router
   .get('/', async (ctx) => {
@@ -41,8 +46,8 @@ router
   .post('/api/answer', AnswerController.validateAnswer, AnswerController.addAnswer)
   .post('/api/answer/:id/flag', AnswerController.flag)
   .post('/api/questions/:id/spam', QuestionController.markSpam)
-  .get('/api/auth//twitter', passport.authenticate('twitter'))
-  .get('/api/auth//twitter/callback', passport.authenticate('twitter',
+  .get('/api/auth/twitter', passport.authenticate('twitter'))
+  .get('/api/auth/twitter/callback', passport.authenticate('twitter',
     { failureRedirect: '/login' }), (req, res) => {
     // Successful authentication, redirect home.
     res.redirect('/dashboard');
