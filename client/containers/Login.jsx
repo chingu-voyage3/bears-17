@@ -1,6 +1,8 @@
+/* eslint-disable no-console */
+
 import React, { Component } from 'react';
 import axios from 'axios';
-import LoginForm from '../Components/login.jsx';
+import LoginForm from '../Components/LoginForm.jsx';
 
 class Login extends Component {
   constructor(props) {
@@ -10,6 +12,9 @@ class Login extends Component {
       name: '',
       password: '',
     };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   clearState() {
@@ -19,7 +24,9 @@ class Login extends Component {
     });
   }
 
-  handleChange(input, event) {
+  handleChange(event, input) {
+    console.log(this.state, 'state');
+    console.log(input, event.target.value, 'input and event value');
     this.setState({
       [input]: event.target.value,
     });
@@ -41,6 +48,7 @@ class Login extends Component {
           handleChange={this.handleChange}
           name={this.state.name}
           password={this.state.password}
+          handleSubmit={this.handleSubmit}
         />
       </div>
     );

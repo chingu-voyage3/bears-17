@@ -1,6 +1,8 @@
+/* eslint-disable no-console */
+
 import React, { Component } from 'react';
 import axios from 'axios';
-import LoginForm from '../Components/login.jsx';
+import LoginForm from '../Components/LoginForm.jsx';
 
 class Register extends Component {
   constructor(props) {
@@ -40,6 +42,7 @@ class Register extends Component {
           handleChange={this.handleChange}
           name={this.state.name}
           password={this.state.password}
+          handleSubmit={this.handleSubmit}
         />
       </div>
     );
