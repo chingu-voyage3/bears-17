@@ -3,7 +3,9 @@ const koaBody = require('koa-body');
 const mongoose = require('mongoose');
 const Router = require('koa-router');
 const QuestionController = require('./controller/index.js');
-const AnswerController = require('./controller/answers.js')
+const AnswerController = require('./controller/answers.js');
+const passport = require('koa-passport');
+require('./controller/auth.js');
 
 const app = new Koa();
 const router = new Router();
@@ -38,8 +40,13 @@ router
   .get('/api/answers/:id', AnswerController.findAnswersById)
   .post('/api/answer', AnswerController.validateAnswer, AnswerController.addAnswer)
   .post('/api/answer/:id/flag', AnswerController.flag)
-  .post('/api/questions/:id/spam', QuestionController.markSpam);
-
+  .post('/api/questions/:id/spam', QuestionController.markSpam)
+  .get('/api/auth//twitter', passport.authenticate('twitter'))
+  .get('/api/auth//twitter/callback', passport.authenticate('twitter',
+    { failureRedirect: '/login' }), (req, res) => {
+    // Successful authentication, redirect home.
+    res.redirect('/dashboard');
+  });
 app
   .use(router.routes())
   .use(router.allowedMethods());
