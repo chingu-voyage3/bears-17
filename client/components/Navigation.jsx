@@ -4,6 +4,7 @@ const LINKS = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
   { label: 'Login', href: '/login' },
+  { label: 'Questions', href: '/questions' },
 ];
 
 const Navigation = () => (
