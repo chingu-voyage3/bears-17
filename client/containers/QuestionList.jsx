@@ -22,8 +22,10 @@ class QuestionList extends Component {
         this.setState({ totalQuestions: data });
       });
   }
-  getQuestions() {
-    fetch('/api/questions')
+  getQuestions(page) {
+    const url = page ? `/api/questions?page=${page}` : '/api/questions';
+    console.log(page);
+    fetch(url)
       .then(res => res.json())
       .then(data => this.setState({ questions: data }));
   }
@@ -31,12 +33,12 @@ class QuestionList extends Component {
   render() {
     const pages = [];
     for (let i = 0; i < this.state.totalQuestions / 10; i += 1) {
-      pages.push(<li>{i + 1}</li>);
+      pages.push(<button key={i} onClick={() => this.getQuestions(i + 1)}>{i + 1}</button>);
     }
     return (
       <div>
         {pages}
-        <ul>{this.state.questions.map(question => <li>{question.title}</li>)}
+        <ul>{this.state.questions.map(question => <li key={question.title}>{question.title}</li>)}
         </ul>
       </div>
     );
