@@ -5,7 +5,7 @@ import Header from 'Components/Header';
 import Footer from 'Components/Footer';
 
 import Home from 'Containers/Home';
-// import Question from 'Containers/Question';
+import Question from 'Containers/Question';
 import QuestionList from 'Containers/QuestionList';
 
 const routes = () => (
@@ -15,6 +15,7 @@ const routes = () => (
       <Switch>
         <Route path exact="/" component={Home} />
         <Route path="/questions" component={QuestionList} />
+        <Route path="/question/:id" component={Question} />
       </Switch>
       <Footer />
     </div>

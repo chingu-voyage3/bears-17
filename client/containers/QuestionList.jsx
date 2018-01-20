@@ -1,5 +1,7 @@
 /* eslint-disable no-console */
+/* eslint-disable no-underscore-dangle */
 import React, { Component } from 'react';
+import List from '../components/QuestionList.jsx';
 
 class QuestionList extends Component {
   constructor(props) {
@@ -37,9 +39,8 @@ class QuestionList extends Component {
     }
     return (
       <div>
+        <List questions={this.state.questions} />
         {pages}
-        <ul>{this.state.questions.map(question => <li key={question.title}>{question.title}</li>)}
-        </ul>
       </div>
     );
   }
