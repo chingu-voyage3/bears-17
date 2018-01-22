@@ -35,6 +35,7 @@ const authSchema = mongoose.Schema(
       name: String,
       email: String,
     },
+  profile: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   },
   {
     timestamps: { createdAt: 'submitted_at', updatedAt: 'updated_at' },
