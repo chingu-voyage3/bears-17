@@ -5,6 +5,7 @@ const Router = require('koa-router');
 const session = require('koa-session');
 const QuestionController = require('./controller/index.js');
 const AnswerController = require('./controller/answers.js');
+const AuthController = require('./controller/auth.js');
 
 const app = new Koa();
 const router = new Router();
@@ -13,15 +14,30 @@ const port = process.env.API_PORT || 3000;
 const db =
   process.env.NODE_ENV === 'test' ? process.env.DB_TEST : process.env.DB_URL;
 
-  // Authentication
+app.use(koaBody());
+
+// Authentication
 const passport = require('koa-passport');
-require('./controller/auth.js');
+require('./controller/passport.js');
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-function localAuth (ctx) {
+function localAuth(ctx) {
   return passport.authenticate('local', (err, user, info, status) => {
+    if (err) return err;
+    if (user === false) {
+      ctx.body = { success: false };
+      return ctx.body;
+    }
+    ctx.login(user);
+    ctx.body = { success: true };
+    return ctx.body;
+  })(ctx);
+}
+
+function localReg(ctx) {
+  return passport.authenticate('signup', (err, user, info, status) => {
     if (err) return err;
     if (user === false) {
       ctx.body = { success: false };
@@ -44,8 +60,6 @@ mongoose.connect(db, { useMongoClient: true })
     console.log('Error Connecting');
     console.error(err);
   });
-
-app.use(koaBody());
 
 // sessions
 app.keys = [process.env.SESSION_KEY_1];
@@ -73,7 +87,8 @@ router
   .post('/api/answer/:id/flag', AnswerController.flag)
   .post('/api/questions/:id/spam', QuestionController.markSpam)
   .post('/api/login', localAuth)
-  .post('/api/register', localAuth)
+// .post('/api/register', AuthController.registerUser)
+  .post('/api/register', localReg)
   .get('/api/logout', (ctx) => {
     ctx.logout();
     ctx.bodu = { success: true };
