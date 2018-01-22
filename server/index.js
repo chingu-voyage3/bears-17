@@ -5,7 +5,6 @@ const Router = require('koa-router');
 const session = require('koa-session');
 const QuestionController = require('./controller/index.js');
 const AnswerController = require('./controller/answers.js');
-const AuthController = require('./controller/auth.js');
 
 const app = new Koa();
 const router = new Router();
@@ -85,16 +84,15 @@ router
     AnswerController.addAnswer,
   )
   .post('/api/answer/:id/flag', AnswerController.flag)
+  .post('/api/answer/:id/vote', AnswerController.vote)
   .post('/api/questions/:id/spam', QuestionController.markSpam)
   .post('/api/login', localAuth)
-// .post('/api/register', AuthController.registerUser)
   .post('/api/register', localReg)
   .get('/api/logout', (ctx) => {
     ctx.logout();
-    ctx.bodu = { success: true };
+    ctx.body = { success: true };
     return ctx.body;
   });
-
 
 app
   .use(router.routes())
