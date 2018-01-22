@@ -31,6 +31,7 @@ describe('POST /api/login', () => {
 
   afterAll(async (done) => {
     await Auth.remove({ 'local.name': 'test' }).exec();
+    await Auth.remove({ 'local.name': 'registerTest' }).exec();
     return done();
   });
 
@@ -41,11 +42,20 @@ describe('POST /api/login', () => {
     expect(response.body.success).toEqual(true);
   });
 
-  if ('should return 200 and return a false object if user fails to login', async () => {
+  it('should return 200 and return a false object if user fails to login', async () => {
     const url = '/api/login';
     const response = await request(app.callback()).post(url).send(failLogin);
     expect(response.status).toEqual(200);
-    expect(response.header.location).toEqual('/');
     expect(response.body.success).toEqual(false);
+  });
+
+  it('should register a new user', async () => {
+    const user = {
+      username: 'registerTest',
+      password: '12345',
+    };
+    const url = '/api/register';
+    const response = await request(app.callback()).post(url).send(user);
+    expect(response.body.success).toEqual(true);
   });
 });
