@@ -68,7 +68,8 @@ exports.findAnswersById = async (ctx) => {
 
       ctx.body = res;
       return ctx.body;
-    }).catch((err) => {
+    })
+.catch((err) => {
       console.error(err);
       ctx.body = { err: err.message };
       return ctx.body;
@@ -151,13 +152,13 @@ exports.vote = async (ctx) => {
       )
         .then((answer) => {
           ctx.body = answer;
-        })
+        });
     })
     .catch((error) => {
       ctx.body = { error };
     });
 
-    return ctx.body;
+  return ctx.body;
 };
 
 exports.validateAnswer = async (ctx, next) => {

@@ -28,6 +28,7 @@
     }
   },
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "bluebird": "^3.5.1",
     "deep-trim-node": "^1.1.2",
     "dotenv": "^4.0.0",
@@ -35,9 +36,12 @@
     "joi": "^13.0.2",
     "koa": "^2.4.1",
     "koa-body": "^2.5.0",
+    "koa-passport": "^4.0.1",
     "koa-router": "^7.3.0",
+    "koa-session": "^5.5.1",
     "mongoose": "^4.13.6",
     "normalize-scss": "^7.0.0",
+    "passport-local": "^1.0.0",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
