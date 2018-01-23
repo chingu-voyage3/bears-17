@@ -10,7 +10,7 @@ class CreateQuestion extends Component {
     this.state = {
       title: '',
       body: '',
-    }
+    };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -29,14 +29,19 @@ class CreateQuestion extends Component {
     });
   }
 
-  handleSubmit () {
+  handleSubmit() {
     axios.post('/api/post/question', this.state)
       .then(res => res);
     this.clearState();
   }
 
   render() {
-    return <QuestionForm handleChange={this.handleChange} title={this.state.title} body={this.state.body} />;
+    return (
+      <QuestionForm
+        handleChange={this.handleChange}
+        title={this.state.title}
+        body={this.state.body}
+      />);
   }
 }
 

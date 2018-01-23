@@ -124,6 +124,8 @@ class Question extends Component {
       <main>
         {this.state.modal &&
           <Modal
+            questionTitle={this.state.question.title}
+            questionBody={this.state.question.body}
             answer={this.state.answer}
             handleChange={this.handleChange}
             toggleModal={this.toggleModal}
