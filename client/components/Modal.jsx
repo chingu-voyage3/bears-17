@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { MdCancel } from 'react-icons/lib/md';
+
 const backdrop = {
   position: 'fixed',
   top: 0,
@@ -13,43 +15,66 @@ const backdrop = {
 
 const modal = {
   backgroundColor: '#fff',
-  borderRadius: 5,
+  borderRadius: 0,
   maxWidth: '70%',
   minHeight: '75%',
   margin: '5rem auto',
-  padding: '0rem 3rem',
+  padding: '1rem 3rem 2rem',
   display: 'flex',
   flexDirection: 'column',
+  overflow: 'auto',
 };
 
 const buttonStyle = {
   width: '100%',
+  height: '100%',
 };
 
 const buttonContainer = {
   display: 'flex',
+  paddingBottom: '2rem',
 };
 
 const textArea = {
   width: '100%',
-  height: '100%',
+};
+
+const areaContainer = {
+  marginBottom: '0.5rem',
+};
+
+const alignLeft = {
+  marginLeft: 'auto',
 };
 
 const Modal = props => (
   <div style={backdrop} >
-    <div style={modal}>
-      <div>
-        <h2>Title</h2>
+    <div className="modal" style={modal}>
+      <div style={alignLeft}>
+        <MdCancel onClick={props.toggleModal} />
       </div>
       <div>
-        <p>Question Body</p>
+        <h2>{props.questionTitle}</h2>
       </div>
       <div>
-        <textarea style={textArea} rows="4" cols="50" value={props.answer} onChange={(e) => { props.handleChange(e, 'answer'); }} />
+        <p>{props.questionBody}</p>
+      </div>
+      <div style={areaContainer} >
+        <textarea className="answer-box" style={textArea} rows="4" cols="50" value={props.answer} onChange={(e) => { props.handleChange(e, 'answer'); }} />
       </div>
       <div style={buttonContainer}>
-        <button style={buttonStyle} onClick={() => { props.handleSubmit(); }}>Submit Answer</button>
-        <button style={buttonStyle} onClick={props.toggleModal} >Cancel Answer</button>
+        <button
+          className="btn btn--success"
+          style={buttonStyle}
+          onClick={() => { props.handleSubmit(); }}
+        >Submit Answer
+        </button>
+        <button
+          className="btn btn--danger decline_btn"
+          style={buttonStyle}
+          onClick={props.toggleModal}
+        >Cancel Answer
+        </button>
       </div>
     </div>
   </div>
@@ -62,4 +87,6 @@ Modal.propTypes = {
   handleChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   answer: PropTypes.string.isRequired,
+  questionTitle: PropTypes.string.isRequired,
+  questionBody: PropTypes.string.isRequired,
 };
