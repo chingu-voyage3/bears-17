@@ -92,7 +92,21 @@ router
     ctx.logout();
     ctx.body = { success: true };
     return ctx.body;
-  });
+  })
+  .get(
+    '/api/auth/google',
+    passport.authenticate('google', { scope: 'https://www.googleapis.com/auth/userinfo.profile' }),
+  )
+  .get('/api/auth/google/callback', ctx => passport.authenticate('google', (err, user, info) => {
+    if (err) return err;
+    if (user === false) {
+      ctx.body = { success: false };
+      return ctx.body;
+    }
+    ctx.login(user);
+    ctx.body = { success: true };
+    return ctx.body;
+  })(ctx));
 
 app
   .use(router.routes())
