@@ -58,6 +58,30 @@ exports.getId = async (ctx) => {
     });
 };
 
+exports.markSpam = async (ctx) => {
+  const user = ctx.state.user.id;
+  if (!user) {
+    ctx.body = 'Not authorized';
+    return ctx.body;
+  }
+  const doc = await Question.findOne({ _id: ctx.params.id })
+    .then(data => data)
+    .catch(err => err.message);
+  const userMarked = doc.spam.includes(user);
+  const updates = userMarked
+    ? { $pull: { spam: user } }
+    : { $addToSet: { spam: user } };
+  return doc.update(updates)
+    .then((res) => {
+      ctx.body = res;
+      return ctx.body;
+    })
+    .catch((err) => {
+      ctx.body = err.message;
+      return ctx.body;
+    });
+};
+
 exports.vote = async (ctx) => {
   const { user_id } = ctx.request.body;
 

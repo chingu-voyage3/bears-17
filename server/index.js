@@ -2,9 +2,9 @@ const Koa = require('koa');
 const koaBody = require('koa-body');
 const mongoose = require('mongoose');
 const Router = require('koa-router');
+const session = require('koa-session');
 const QuestionController = require('./controller/index.js');
 const AnswerController = require('./controller/answers.js');
-const session = require('koa-session');
 
 const app = new Koa();
 const router = new Router();
@@ -13,12 +13,40 @@ const port = process.env.API_PORT || 3000;
 const db =
   process.env.NODE_ENV === 'test' ? process.env.DB_TEST : process.env.DB_URL;
 
-  // Authentication
+app.use(koaBody());
+
+// Authentication
 const passport = require('koa-passport');
-require('./controller/auth.js');
+require('./controller/passport.js');
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+function localAuth(ctx) {
+  return passport.authenticate('local', (err, user, info, status) => {
+    if (err) return err;
+    if (user === false) {
+      ctx.body = { success: false };
+      return ctx.body;
+    }
+    ctx.login(user);
+    ctx.body = { success: true };
+    return ctx.body;
+  })(ctx);
+}
+
+function localReg(ctx) {
+  return passport.authenticate('signup', (err, user, info, status) => {
+    if (err) return err;
+    if (user === false) {
+      ctx.body = { success: false };
+      return ctx.body;
+    }
+    ctx.login(user);
+    ctx.body = { success: true };
+    return ctx.body;
+  })(ctx);
+}
 
 // Promise Library for mongoose
 mongoose.Promise = require('bluebird');
@@ -32,30 +60,39 @@ mongoose.connect(db, { useMongoClient: true })
     console.error(err);
   });
 
-app.use(koaBody());
-
 // sessions
 app.keys = [process.env.SESSION_KEY_1];
 app.use(session({}, app));
 
 router
   .get('/', async (ctx) => {
+    if (ctx.isAuthenticated()) {
+      ctx.body = 'Authenticated';
+      return ctx.body;
+    }
+
     ctx.body = 'Hello Koa';
-  })
-  .get('/dashboard', async (ctx) => {
-    ctx.body = 'success';
   })
   .get('/api/questions', QuestionController.getQuestions)
   .get('/api/questions/random/:limit?', QuestionController.getRandomQuestions)
   .get('/api/question/:id', QuestionController.getId)
   .post('/api/question/:id/vote', QuestionController.vote)
   .get('/api/answers/:id', AnswerController.findAnswersById)
-  .post('/api/answer', AnswerController.validateAnswer, AnswerController.addAnswer)
+  .post(
+    '/api/answer',
+    AnswerController.validateAnswer,
+    AnswerController.addAnswer,
+  )
   .post('/api/answer/:id/flag', AnswerController.flag)
-  .post('/api/login', passport.authenticate('local', {
-    successRedirect: '/dashboard',
-    failureRedirect: '/',
-  }))
+  .post('/api/answer/:id/vote', AnswerController.vote)
+  .post('/api/questions/:id/spam', QuestionController.markSpam)
+  .post('/api/login', localAuth)
+  .post('/api/register', localReg)
+  .get('/api/logout', (ctx) => {
+    ctx.logout();
+    ctx.body = { success: true };
+    return ctx.body;
+  })
   .get('/api/auth/google',
     passport.authenticate('google', { scope: 'https://www.googleapis.com/auth/userinfo.profile' }))
   .get('/api/auth/google/callback',
