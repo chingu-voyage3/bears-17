@@ -66,10 +66,10 @@ passport.use(new GoogleStrategy(
           const auth = new Auth({ 'google.name': profile.displayName, 'google.id': profile.id });
           auth.save((error) => {
             if (error) return done(null, false);
-            const profile = new User({ _id: auth._id, name: profile.displayName });
-            profile.save((userError) => {
+            const user = new User({ _id: auth._id, name: profile.displayName });
+            user.save((userError) => {
               if (userError) return done(null, false);
-              return done(null, profile);
+              return done(null, user);
             });
           });
         }
