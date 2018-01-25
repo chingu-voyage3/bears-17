@@ -1,5 +1,6 @@
 const Koa = require('koa');
 const koaBody = require('koa-body');
+const session = require('koa-session');
 const mongoose = require('mongoose');
 const Router = require('koa-router');
 const session = require('koa-session');
@@ -60,6 +61,7 @@ mongoose.connect(db, { useMongoClient: true })
     console.error(err);
   });
 
+
 // sessions
 app.keys = [process.env.SESSION_KEY_1];
 app.use(session({}, app));
@@ -106,7 +108,19 @@ router
     ctx.login(user);
     ctx.body = { success: true };
     return ctx.body;
-  })(ctx));
+  })(ctx))
+  .get('/api/auth/twitter', passport.authenticate('twitter'))
+  .get('/api/auth/twitter/callback', async (ctx) => {
+    return passport.authenticate('twitter', (err, user, info, status) => {
+      if (user === false) {
+        ctx.body = { success: false };
+        ctx.throw(401);
+      } else {
+        ctx.body = { success: true };
+        return ctx.body;
+      }
+    })(ctx);
+  });
 
 app
   .use(router.routes())
