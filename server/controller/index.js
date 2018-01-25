@@ -58,7 +58,6 @@ exports.getId = async (ctx) => {
     });
 };
 
-
 exports.markSpam = async (ctx) => {
   const user = ctx.state.user.id;
   if (!user) {
