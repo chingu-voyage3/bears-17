@@ -32,7 +32,7 @@ const formCard = {
   padding: '1rem',
   marginLeft: 'auto',
   marginRight: 'auto',
-  marginTop: '5rem',
+  marginTop: '1rem',
   marginBottom: '5rem',
 };
 
