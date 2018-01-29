@@ -8,7 +8,6 @@ import Home from 'Containers/Home';
 import Question from 'Containers/Question';
 import Profile from 'Containers/Profile';
 import Login from 'Containers/Login';
-import Register from 'Containers/Register';
 import CreateQuestion from 'Containers/CreateQuestion';
 
 const routes = () => (
@@ -17,8 +16,8 @@ const routes = () => (
       <Header />
       <Switch>
         <Route path="/profile" component={Profile} />
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={Register} />
+        <Route path="/login" render={props => <Login {...props} auth="login" />} />
+        <Route path="/register" render={props => <Login {...props} auth="register" />} />
         <Route path="/question/:id" component={Question} />
         <Route path="/create" component={CreateQuestion} />
         <Route path="/" component={Home} />
