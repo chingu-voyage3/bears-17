@@ -2,8 +2,12 @@ const Koa = require('koa');
 const koaBody = require('koa-body');
 const mongoose = require('mongoose');
 const Router = require('koa-router');
+const send = require('koa-send');
+const serve = require('koa-static');
+const path = require('path');
+
 const QuestionController = require('./controller/index.js');
-const AnswerController = require('./controller/answers.js')
+const AnswerController = require('./controller/answers.js');
 
 const app = new Koa();
 const router = new Router();
@@ -26,21 +30,26 @@ mongoose.connect(db, { useMongoClient: true })
   });
 
 app.use(koaBody());
+app.use(serve('./dist'));
 
 router
-  .get('/', async (ctx) => {
-    ctx.body = 'Hello Koa';
-  })
   .get('/api/questions', QuestionController.getQuestions)
   .post('/api/post/question', QuestionController.addQuestion)
   .get('/api/questions/random/:limit?', QuestionController.getRandomQuestions)
   .get('/api/question/:id', QuestionController.getId)
   .post('/api/question/:id/vote', QuestionController.vote)
   .get('/api/answers/:id', AnswerController.findAnswersById)
-  .post('/api/answer', AnswerController.validateAnswer, AnswerController.addAnswer)
+  .post(
+    '/api/answer',
+    AnswerController.validateAnswer,
+    AnswerController.addAnswer,
+  )
   .post('/api/answer/:id/flag', AnswerController.flag)
   .post('/api/answer/:id/vote', AnswerController.vote)
-  .post('/api/questions/:id/spam', QuestionController.markSpam);
+  .post('/api/questions/:id/spam', QuestionController.markSpam)
+  .get('*', async (ctx) => {
+    await send(ctx, './dist/index.html');
+  });
 
 app
   .use(router.routes())
