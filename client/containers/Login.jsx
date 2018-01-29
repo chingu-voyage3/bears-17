@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import axios from 'axios';
 import LoginForm from '../Components/LoginForm.jsx';
@@ -33,7 +34,7 @@ class Login extends Component {
   }
 
   handleSubmit() {
-    axios.post('/api/login', this.state)
+    axios.post(`/api/${this.props.auth}`, this.state)
       .then((res) => {
         console.log(res, 'this is res');
         return res;
@@ -45,6 +46,7 @@ class Login extends Component {
     return (
       <div>
         <LoginForm
+          location={this.props.auth}
           handleChange={this.handleChange}
           name={this.state.name}
           password={this.state.password}
@@ -56,3 +58,7 @@ class Login extends Component {
 }
 
 export default Login;
+
+Login.propTypes = {
+  auth: PropTypes.string.isRequired,
+};
