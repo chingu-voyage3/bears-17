@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 
 const buttonStyle = {
+  color: '',
   border: '0.5px solid currentColor',
   textTransform: 'uppercase',
   marginRight: '0.5rem',
