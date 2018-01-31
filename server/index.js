@@ -2,11 +2,7 @@ const Koa = require('koa');
 const koaBody = require('koa-body');
 const mongoose = require('mongoose');
 const Router = require('koa-router');
-const send = require('koa-send');
-const serve = require('koa-static');
-const path = require('path');
 const session = require('koa-session');
-
 const QuestionController = require('./controller/index.js');
 const AnswerController = require('./controller/answers.js');
 
@@ -64,19 +60,20 @@ mongoose.connect(db, { useMongoClient: true })
     console.error(err);
   });
 
-app.use(koaBody());
-app.use(serve('./dist'));
-
 // sessions
 app.keys = [process.env.SESSION_KEY_1];
 app.use(session({}, app));
 
 router
-   .get('*', async (ctx) => {
-    await send(ctx, './dist/index.html');
-  });
+  .get('/', async (ctx) => {
+    if (ctx.isAuthenticated()) {
+      ctx.body = 'Authenticated';
+      return ctx.body;
+    }
+
+    ctx.body = 'Hello Koa';
+  })
   .get('/api/questions', QuestionController.getQuestions)
-  .post('/api/post/question', QuestionController.addQuestion)
   .get('/api/questions/random/:limit?', QuestionController.getRandomQuestions)
   .get('/api/question/:id', QuestionController.getId)
   .post('/api/question/:id/vote', QuestionController.vote)
