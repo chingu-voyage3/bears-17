@@ -3,6 +3,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+// import qs from 'qs';
 
 import axios from 'axios';
 
@@ -67,19 +68,21 @@ class Login extends Component {
   }
 
   handleSubmit() {
-    axios.post(`/api/${this.props.auth}`, this.state)
+    const authObject = {
+      username: this.state.name,
+      password: this.state.password,
+    };
+    axios.post(`/api/${this.props.auth}`, authObject)
       .then((res) => {
         console.log(res, 'this is res');
-        return res;
       });
     this.clearState();
   }
 
   render() {
     const { navigate } = this.state;
-    console.log(this.state.navigate, 'this is navitate');
+
     if (navigate) {
-      console.log(navigate, 'this is navigate');
       return <Redirect to={`/auth/${navigate}`} />;
     }
 
