@@ -27,6 +27,7 @@ passport.use(new LocalStrategy('local', ((username, password, done) => {
 })));
 
 passport.use('signup', new LocalStrategy(((username, password, done) => {
+  console.log('REGISERING');
   Auth.findOne({ 'local.name': username }, (err, user) => {
     if (!user) {
       const newAuth = new Auth({
@@ -53,6 +54,7 @@ passport.use('signup', new LocalStrategy(((username, password, done) => {
     return done(null, false);
   });
 })));
+
 passport.use(new GoogleStrategy(
   {
     clientID: process.env.GOOGLE_CLIENT_ID,

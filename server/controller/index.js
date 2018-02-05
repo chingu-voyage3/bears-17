@@ -1,6 +1,5 @@
 const Question = require('../models/question.js');
 
-
 exports.addQuestion = async (ctx) => {
   const question = ctx.request.body;
 

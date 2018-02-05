@@ -1,5 +1,5 @@
 const Koa = require('koa');
-const koaBody = require('koa-body');
+const bodyParser = require('koa-bodyparser');
 const mongoose = require('mongoose');
 const Router = require('koa-router');
 const send = require('koa-send');
@@ -9,6 +9,7 @@ const session = require('koa-session');
 
 const QuestionController = require('./controller/index.js');
 const AnswerController = require('./controller/answers.js');
+const UserController = require('./controller/user.js');
 
 const app = new Koa();
 const router = new Router();
@@ -17,16 +18,17 @@ const port = process.env.API_PORT || 3000;
 const db =
   process.env.NODE_ENV === 'test' ? process.env.DB_TEST : process.env.DB_URL;
 
-app.use(koaBody());
-
 // Authentication
 const passport = require('koa-passport');
 require('./controller/passport.js');
 
+app.use(bodyParser());
+
 app.use(passport.initialize());
 app.use(passport.session());
 
-function localAuth(ctx) {
+const localAuth = async (ctx) => {
+  console.log(ctx.request.body, 'localAUTH');
   return passport.authenticate('local', (err, user, info, status) => {
     if (err) return err;
     if (user === false) {
@@ -37,9 +39,10 @@ function localAuth(ctx) {
     ctx.body = { success: true };
     return ctx.body;
   })(ctx);
-}
+};
 
-function localReg(ctx) {
+const localReg = async (ctx) => {
+  console.log(ctx.request.body, 'LOCAL REG');
   return passport.authenticate('signup', (err, user, info, status) => {
     if (err) return err;
     if (user === false) {
@@ -50,8 +53,7 @@ function localReg(ctx) {
     ctx.body = { success: true };
     return ctx.body;
   })(ctx);
-}
-
+};
 // Promise Library for mongoose
 mongoose.Promise = require('bluebird');
 
@@ -64,7 +66,6 @@ mongoose.connect(db, { useMongoClient: true })
     console.error(err);
   });
 
-app.use(koaBody());
 app.use(serve('./dist'));
 
 // sessions
@@ -72,15 +73,13 @@ app.keys = [process.env.SESSION_KEY_1];
 app.use(session({}, app));
 
 router
-   .get('*', async (ctx) => {
-    await send(ctx, './dist/index.html');
-  });
   .get('/api/questions', QuestionController.getQuestions)
   .post('/api/post/question', QuestionController.addQuestion)
   .get('/api/questions/random/:limit?', QuestionController.getRandomQuestions)
   .get('/api/question/:id', QuestionController.getId)
   .post('/api/question/:id/vote', QuestionController.vote)
   .get('/api/answers/:id', AnswerController.findAnswersById)
+  .get('/api/answers/user/:id', AnswerController.findAnswersByUser)
   .post(
     '/api/answer',
     AnswerController.validateAnswer,
@@ -88,6 +87,7 @@ router
   )
   .post('/api/answer/:id/flag', AnswerController.flag)
   .post('/api/answer/:id/vote', AnswerController.vote)
+  .post('/api/user/update-profile', UserController.updateProfile)
   .post('/api/questions/:id/spam', QuestionController.markSpam)
   .post('/api/login', localAuth)
   .post('/api/register', localReg)
@@ -109,7 +109,10 @@ router
     ctx.login(user);
     ctx.body = { success: true };
     return ctx.body;
-  })(ctx));
+  })(ctx))
+  .get('*', async (ctx) => {
+    await send(ctx, './dist/index.html');
+  });
 
 app
   .use(router.routes())

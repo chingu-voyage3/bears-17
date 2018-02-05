@@ -30,6 +30,12 @@ exports.addAnswer = async (ctx) => {
     });
 };
 
+exports.findAnswersByUser = async (ctx) => {
+  const answers = await Answer.find({ 'author._id': ObjectId(ctx.params.id) });
+  ctx.body = answers;
+  return ctx.body;
+};
+
 exports.findAnswersById = async (ctx) => {
   const SORTS = [-1, 1, '-1', '1'];
   const SORT_BYS = ['votes', 'submitted_at'];
@@ -69,7 +75,7 @@ exports.findAnswersById = async (ctx) => {
       ctx.body = res;
       return ctx.body;
     })
-.catch((err) => {
+    .catch((err) => {
       console.error(err);
       ctx.body = { err: err.message };
       return ctx.body;
@@ -103,7 +109,7 @@ exports.flag = async (ctx) => {
       await Answer.findOneAndUpdate(
         { _id: ctx.params.id },
         updates,
-        { new: true }
+        { new: true },
       ).then((answer) => {
         ctx.body = answer;
       });
