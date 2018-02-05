@@ -1,5 +1,6 @@
 const Question = require('../models/question.js');
 
+
 exports.addQuestion = async (ctx) => {
   const question = ctx.request.body;
 
@@ -57,7 +58,6 @@ exports.getId = async (ctx) => {
       return ctx.body;
     });
 };
-
 
 exports.markSpam = async (ctx) => {
   const user = ctx.state.user.id;
