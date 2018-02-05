@@ -8,7 +8,7 @@ const answerSchema = mongoose.Schema(
     voted_by: Array,
     flagged_by: Array,
     author: {
-      _id: String,
+      _id: {type: mongoose.Schema.Types.ObjectId, required: true },
       name: String,
       avatar: String,
     },
