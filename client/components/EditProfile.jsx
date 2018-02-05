@@ -75,7 +75,9 @@ const ProfileModal = props => (
           </label>
         </div>
         <div className="button-wrapper">
-          <button className="btn btn--hollow" onClick={() => props.saveProfile()} >Save</button>
+          <button className="btn btn--hollow" onClick={() => props.saveProfile()} >
+            Save Profile
+          </button>
         </div>
       </div>
     </div>

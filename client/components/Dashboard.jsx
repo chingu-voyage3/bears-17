@@ -1,3 +1,6 @@
+/* eslint-disable no-console */
+/* eslint-disable no-underscore-dangle */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -116,16 +119,52 @@ const menuStyle = {
   borderBottom: '1px solid #BDC3C7',
 };
 
+const panelList = {
+  listStyle: 'none',
+  marginRight: '2rem',
+};
+
+const questionPanel = {
+  width: '100%',
+  backgroundColor: '#fff',
+  border: '1px solid #595979',
+  borderRadius: '2px',
+  padding: '0.25rem 0.5rem',
+  marginBottom: '0.5rem',
+};
+
 const ProfileBody = (props) => {
-  const answers = props.answers.map(e => <li>{`${e.body.slice(0, 72)}...`} </li>) || <li>No answers</li>;
-  const questions = props.questions.map(e => <li>{e.title}</li>) || <li>No Questions</li>;
+  console.log(props.answers, 'this is answers');
+  console.log(props.questions, 'this is questions');
+  const answers = props.answers.map(e => (
+    <li>
+      <div style={questionPanel}>
+        <a href={`/question/${e.question_id}`}>
+          {
+            `${e.body.slice(0, 72)}...`
+          }
+        </a>
+      </div>
+    </li>
+  ));
+
+  const questions = props.questions.map((e) => {
+    console.log('moo');
+    return (
+      <li>
+        <div style={questionPanel}>
+          <a href={`/question/${e._id}`}>{e.title}</a>
+        </div>
+      </li>
+    );
+  });
   return (
     <div style={bodyStyle}>
       <ul style={menuStyle}>
         <li className="dashboard-menu-list">
           <button
             className="dashboard-menu-item"
-            onClick={() => props.handleToggle('answers')}
+            onClick={() => props.handleToggle('questions')}
           >
           Questions
           </button>
@@ -133,13 +172,13 @@ const ProfileBody = (props) => {
         <li className="dashboard-menu-list">
           <button
             className="dashboard-menu-item"
-            onClick={() => props.handleToggle('questions')}
+            onClick={() => props.handleToggle('answers')}
           >
           Answers
           </button>
         </li>
       </ul>
-      <ul>
+      <ul style={panelList}>
         {props.toggle === 'answers' && answers}
         {props.toggle === 'questions' && questions}
       </ul>
