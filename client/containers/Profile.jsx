@@ -15,7 +15,9 @@ class Profile extends Component {
       toggle: false,
       questions: [],
       answers: [],
-      user: '5a2ff186fc13ae7095000645',
+      user: {
+        id: '5a2ff186fc13ae7095000648',
+      },
       editProfile: false,
       profile: {
         name: '',
@@ -35,11 +37,11 @@ class Profile extends Component {
 
   componentDidMount() {
     console.log(
-      `/api/answers/user/${this.state.user}`,
+      `/api/answers/user/${this.state.user.id}`,
       'this is api/answers/user'
     );
     Promise.all([
-      axios.get(`/api/answers/user/${this.state.user}`),
+      axios.get(`/api/answers/user/${this.state.user.id}`),
       axios.get('/api/questions'),
     ]).then((res) => {
       const [answers, questions] = res;
@@ -77,9 +79,9 @@ class Profile extends Component {
     });
   }
 
-  handleToggle() {
+  handleToggle(value) {
     this.setState({
-      toggle: !this.state.toggle,
+      toggle: this.state.toggle ? '' : value,
     });
   }
 
