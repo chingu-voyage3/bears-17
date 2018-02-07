@@ -28,7 +28,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 const localAuth = async (ctx) => {
-  console.log(ctx.request.body, 'localAUTH');
   return passport.authenticate('local', (err, user, info, status) => {
     if (err) return err;
     if (user === false) {
@@ -36,13 +35,12 @@ const localAuth = async (ctx) => {
       return ctx.body;
     }
     ctx.login(user);
-    ctx.body = { success: true };
+    ctx.body = { success: true, user };
     return ctx.body;
   })(ctx);
 };
 
 const localReg = async (ctx) => {
-  console.log(ctx.request.body, 'LOCAL REG');
   return passport.authenticate('signup', (err, user, info, status) => {
     if (err) return err;
     if (user === false) {
@@ -50,7 +48,7 @@ const localReg = async (ctx) => {
       return ctx.body;
     }
     ctx.login(user);
-    ctx.body = { success: true };
+    ctx.body = { success: true, user };
     return ctx.body;
   })(ctx);
 };
@@ -107,7 +105,7 @@ router
       return ctx.body;
     }
     ctx.login(user);
-    ctx.body = { success: true };
+    ctx.body = { success: true, user };
     return ctx.body;
   })(ctx))
   .get('*', async (ctx) => {

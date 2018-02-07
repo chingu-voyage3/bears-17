@@ -2,10 +2,15 @@
 /* eslint-disable no-console */
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import axios from 'axios';
 
 import { ProfileHeader, ProfileBody } from '../components/Dashboard.jsx';
 import ProfileModal from '../components/EditProfile.jsx';
+
+import { clearUser } from '../actions/user.js';
 
 class Profile extends Component {
   constructor(props) {
@@ -15,9 +20,6 @@ class Profile extends Component {
       toggle: false,
       questions: [],
       answers: [],
-      user: {
-        id: '5a2ff186fc13ae7095000648',
-      },
       editProfile: false,
       profile: {
         name: '',
@@ -36,12 +38,9 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    console.log(
-      `/api/answers/user/${this.state.user.id}`,
-      'this is api/answers/user'
-    );
+    console.log(this.props.profile, 'this is user');
     Promise.all([
-      axios.get(`/api/answers/user/${this.state.user.id}`),
+      axios.get(`/api/answers/user/${this.props.profile._id}`),
       axios.get('/api/questions'),
     ]).then((res) => {
       const [answers, questions] = res;
@@ -113,7 +112,7 @@ class Profile extends Component {
       return (
         <ProfileModal
           toggleModal={this.toggleModal}
-          profile={this.state.profile}
+          profile={this.props.profile}
           handleChange={this.handleChange}
           saveProfile={this.saveProfile}
         />
@@ -134,4 +133,40 @@ class Profile extends Component {
   }
 }
 
-export default Profile;
+const mapStateToProps = (state) => {
+  console.log(state, 'this is state on profile');
+  return ({
+    profile: state.userReducer.profile,
+  });
+};
+
+const mapDispatchToProps = dispatch => ({
+  clearUser: () => dispatch(clearUser()),
+});
+
+const ProfileConnect = connect(mapStateToProps, mapDispatchToProps)(Profile);
+
+export default ProfileConnect;
+
+Profile.defaultProps = {
+  profile: {
+    name: '',
+    email: '',
+    avatar: '',
+    country: '',
+    member_since: '',
+    introduction: '',
+  },
+};
+
+Profile.propTypes = {
+  profile: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    name: PropTypes.string,
+    email: PropTypes.string,
+    avatar: PropTypes.string,
+    country: PropTypes.string,
+    member_since: PropTypes.instanceOf(Date),
+    introduction: PropTypes.string,
+  }),
+};

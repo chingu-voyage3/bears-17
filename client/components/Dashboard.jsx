@@ -3,6 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import { TiCogOutline } from 'react-icons/lib/ti';
 
@@ -139,11 +140,11 @@ const ProfileBody = (props) => {
   const answers = props.answers.map(e => (
     <li>
       <div style={questionPanel}>
-        <a href={`/question/${e.question_id}`}>
+        <Link to={`/question/${e.question_id}`}>
           {
             `${e.body.slice(0, 72)}...`
           }
-        </a>
+        </Link>
       </div>
     </li>
   ));
@@ -153,7 +154,7 @@ const ProfileBody = (props) => {
     return (
       <li>
         <div style={questionPanel}>
-          <a href={`/question/${e._id}`}>{e.title}</a>
+          <Link to={`/question/${e._id}`}>{e.title}</Link>
         </div>
       </li>
     );

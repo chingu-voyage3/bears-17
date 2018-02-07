@@ -54,9 +54,8 @@
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
-    "redux": "^3.7.2"
-    "react-icons": "^2.2.7",
-    "react-router-dom": "^4.2.2"
+    "redux": "^3.7.2",
+    "react-icons": "^2.2.7"
   },
   "devDependencies": {
     "autoprefixer": "^7.2.1",
