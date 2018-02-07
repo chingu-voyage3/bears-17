@@ -1,15 +1,31 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-console */
+
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import Navigation from 'Components/Navigation';
 import Logo from 'Components/Logo';
 
-const Header = () => (
+const Header = props => (
   <header className="site-header">
     <div className="wrapper wrapper--flex">
       <Logo />
-      <Navigation />
+      <Navigation loggedIn={props.loggedIn} />
     </div>
   </header>
 );
 
-export default Header;
+
+const mapStateToProps = state => ({
+  loggedIn: state.userReducer.profile._id.length > 0,
+});
+
+const HeaderConnect = connect(mapStateToProps)(Header);
+
+export default HeaderConnect;
+
+Header.propTypes = {
+  loggedIn: PropTypes.bool.isRequired,
+};
