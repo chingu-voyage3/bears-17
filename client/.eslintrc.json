@@ -13,6 +13,13 @@
   },
   "plugins": [ "react" ],
   "rules": {
+     "jsx-a11y/anchor-is-valid": [
+      "error",
+      {
+        "components": ["Link"],
+        "specialLink": ["to"]
+      }
+    ],
     "comma-dangle": [2, {
       "arrays": "always-multiline",
       "exports": "never",
