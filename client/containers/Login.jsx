@@ -1,14 +1,19 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
 
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-// import qs from 'qs';
+import { connect } from 'react-redux';
 
 import axios from 'axios';
 
+// components
 import LoginForm from '../Components/LoginForm.jsx';
 import LoginBox from '../Components/LoginBox.jsx';
+
+// actions
+import { setUser } from '../actions/user.js';
 
 const buttonArray = [
   {
@@ -68,19 +73,25 @@ class Login extends Component {
   }
 
   handleSubmit() {
+    const self = this;
     const authObject = {
       username: this.state.name,
       password: this.state.password,
     };
     axios.post(`/api/${this.props.auth}`, authObject)
       .then((res) => {
-        console.log(res, 'this is res');
+        self.props.setUser(res.data.user);
+        return res;
       });
     this.clearState();
   }
 
   render() {
     const { navigate } = this.state;
+
+    if (this.props.profile._id) {
+      return <Redirect to="/profile" />;
+    }
 
     if (navigate) {
       return <Redirect to={`/auth/${navigate}`} />;
@@ -104,8 +115,38 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapStateToProps = state => ({
+  profile: state.userReducer.profile,
+});
+
+const mapDispatchToProps = dispatch => ({
+  setUser: object => dispatch(setUser(object)),
+});
+
+const LoginConnect = connect(mapStateToProps, mapDispatchToProps)(Login);
+
+export default LoginConnect;
+
+Login.defaultProps = {
+  profile: {
+    name: '',
+    email: '',
+    avatar: '',
+    country: '',
+    member_since: '',
+    introduction: '',
+  },
+};
 
 Login.propTypes = {
   auth: PropTypes.string.isRequired,
+  profile: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    name: PropTypes.string,
+    email: PropTypes.string,
+    avatar: PropTypes.string,
+    country: PropTypes.string,
+    member_since: PropTypes.instanceOf(Date),
+    introduction: PropTypes.string,
+  }),
 };
