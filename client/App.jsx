@@ -1,5 +1,8 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+
+// import PropTypes from 'prop-types';
+// import { connect } from 'react-redux';
 
 import Header from 'Components/Header';
 import Footer from 'Components/Footer';
@@ -7,19 +10,40 @@ import Footer from 'Components/Footer';
 import Home from 'Containers/Home';
 import Question from 'Containers/Question';
 import QuestionList from 'Containers/QuestionList';
+import Profile from 'Containers/Profile';
+import Login from 'Containers/Login';
+import CreateQuestion from 'Containers/CreateQuestion';
+import LoggedInContainer from 'Containers/LoggedInContainer';
+import Logout from 'Containers/Logout';
 
-const routes = () => (
+
+const RouteContainer = () => (
   <Router>
     <div>
       <Header />
       <Switch>
         <Route path exact="/" component={Home} />
         <Route path="/questions" component={QuestionList} />
+        <Route path="/about" component={Home} />
+        <Route
+          path="/login"
+          render={props => <Login {...props} auth="login" />}
+        />
+        <Route
+          path="/register"
+          render={props => <Login {...props} auth="register" />}
+        />
         <Route path="/question/:id" component={Question} />
+        <Route path="/create" component={CreateQuestion} />
+        <Route path="/logout" component={Logout} />
+        <LoggedInContainer path="/profile" component={Profile} />
+        <Redirect to="/" />
       </Switch>
       <Footer />
     </div>
   </Router>
 );
 
-export default routes;
+// const RouteConnect = connect(mapStateToProps)(RouteContainer);
+
+export default RouteContainer;

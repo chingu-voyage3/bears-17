@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import FormatDate from 'Components/FormatDate';
 import UserBar from 'Components/UserBar';
@@ -9,7 +10,7 @@ const QuestionList = ({ questions }) => {
   const list = questions.map(question => (
     <li className="question" key={question._id}>
       <h3 className="question__title">
-        <a href={`/question/${question._id}`}>{question.title}</a>
+        <Link to={`/question/${question._id}`}>{question.title}</Link>
       </h3>
 
       <footer className="question__meta">
