@@ -9,18 +9,21 @@ import Footer from 'Components/Footer';
 
 import Home from 'Containers/Home';
 import Question from 'Containers/Question';
+import QuestionList from 'Containers/QuestionList';
 import Profile from 'Containers/Profile';
 import Login from 'Containers/Login';
 import CreateQuestion from 'Containers/CreateQuestion';
 import LoggedInContainer from 'Containers/LoggedInContainer';
 import Logout from 'Containers/Logout';
 
+
 const RouteContainer = () => (
   <Router>
     <div>
       <Header />
       <Switch>
-        <Route exact path="/" component={Home} />
+        <Route path exact="/" component={Home} />
+        <Route path="/questions" component={QuestionList} />
         <Route path="/about" component={Home} />
         <Route
           path="/login"

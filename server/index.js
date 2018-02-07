@@ -85,6 +85,7 @@ router
   )
   .post('/api/answer/:id/flag', AnswerController.flag)
   .post('/api/answer/:id/vote', AnswerController.vote)
+  .get('/api/questions/total', QuestionController.totalQuestions);
   .post('/api/user/update-profile', UserController.updateProfile)
   .post('/api/questions/:id/spam', QuestionController.markSpam)
   .post('/api/login', localAuth)
