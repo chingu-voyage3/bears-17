@@ -4,13 +4,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import { connect } from 'react-redux';
+
 
 import QuestionHeader from 'Components/QuestionHeader';
-
 
 import ModalButton from 'Components/ModalButton';
 import Modal from 'Components/Modal';
 import AnswerList from 'Components/AnswerList';
+
 
 class Question extends Component {
   constructor(props) {
@@ -24,6 +26,7 @@ class Question extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleVote = this.handleVote.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
   }
   componentDidMount() {
@@ -72,6 +75,25 @@ class Question extends Component {
       });
     this.clearAnswer();
   }
+
+  handleVote(answer) {
+    axios.post(`/api/answer/${answer}/vote`, { user_id: this.props.profile._id })
+      .then((res) => {
+        return this.updateVote(res.data);
+      });
+  }
+
+  updateVote(answer) {
+    const answers = this.state.answers.slice();
+    const index = answers.findIndex(e => e._id === answer._id);
+
+    return this.setState({
+      answers: [...this.state.answers.slice(0, index),
+        ...this.state.answers.slice(index + 1),
+        answer],
+    });
+  }
+
   render() {
     return (
       <main>
@@ -99,12 +121,18 @@ class Question extends Component {
             </ModalButton>
           </div>
           <h3>Answers</h3>
-          <AnswerList answers={this.state.answers} />
+          <AnswerList answers={this.state.answers} handleVote={this.handleVote} />
         </div>
       </main>
     );
   }
 }
+
+Question.defaultProps = {
+  profile: {
+    _id: '',
+  },
+};
 
 Question.propTypes = {
   match: PropTypes.shape({
@@ -112,6 +140,15 @@ Question.propTypes = {
       id: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
+  profile: PropTypes.shape({
+    _id: PropTypes.string,
+  }),
 };
 
-export default Question;
+const mapStateToProps = state => ({
+  profile: state.userReducer.profile,
+});
+
+const QuestionConnect = connect(mapStateToProps)(Question);
+
+export default QuestionConnect;
