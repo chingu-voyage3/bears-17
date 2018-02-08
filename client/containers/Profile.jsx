@@ -7,7 +7,8 @@ import PropTypes from 'prop-types';
 
 import axios from 'axios';
 
-import { ProfileHeader, ProfileBody } from '../components/Dashboard.jsx';
+import ProfileBody from '../components/ProfileBody.jsx';
+import ProfileHeader from '../components/ProfileHeader.jsx';
 import ProfileModal from '../components/EditProfile.jsx';
 
 import { clearUser } from '../actions/user.js';
@@ -38,10 +39,9 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.profile, 'this is user');
     Promise.all([
       axios.get(`/api/answers/user/${this.props.profile._id}`),
-      axios.get('/api/questions'),
+      axios.get(`/api/questions/user/${this.props.profile._id}`),
     ]).then((res) => {
       const [answers, questions] = res;
       return this.setUserData(questions.data, answers.data);
@@ -133,12 +133,9 @@ class Profile extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  console.log(state, 'this is state on profile');
-  return ({
-    profile: state.userReducer.profile,
-  });
-};
+const mapStateToProps = state => ({
+  profile: state.userReducer.profile,
+});
 
 const mapDispatchToProps = dispatch => ({
   clearUser: () => dispatch(clearUser()),
@@ -166,7 +163,7 @@ Profile.propTypes = {
     email: PropTypes.string,
     avatar: PropTypes.string,
     country: PropTypes.string,
-    member_since: PropTypes.instanceOf(Date),
+    member_since: PropTypes.string,
     introduction: PropTypes.string,
   }),
 };

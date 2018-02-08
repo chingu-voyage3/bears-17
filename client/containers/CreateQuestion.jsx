@@ -1,3 +1,6 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-console */
+
 import React, { Component } from 'react';
 import axios from 'axios';
 
@@ -31,7 +34,10 @@ class CreateQuestion extends Component {
 
   handleSubmit() {
     axios.post('/api/post/question', this.state)
-      .then(res => res);
+      .then((res) => {
+        console.log(res, 'this is res');
+        return res;
+      });
     this.clearState();
   }
 
@@ -41,6 +47,7 @@ class CreateQuestion extends Component {
         handleChange={this.handleChange}
         title={this.state.title}
         body={this.state.body}
+        handleSubmit={this.handleSubmit}
       />);
   }
 }

@@ -19,13 +19,17 @@ const Header = props => (
 
 
 const mapStateToProps = state => ({
-  loggedIn: state.userReducer.profile._id.length > 0,
+  loggedIn: state.userReducer.profile._id,
 });
 
 const HeaderConnect = connect(mapStateToProps)(Header);
 
 export default HeaderConnect;
 
+Header.defaultProps = {
+  loggedIn: '',
+};
+
 Header.propTypes = {
-  loggedIn: PropTypes.bool.isRequired,
+  loggedIn: PropTypes.string,
 };

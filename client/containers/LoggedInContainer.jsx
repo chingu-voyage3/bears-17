@@ -8,23 +8,18 @@ import PropTypes from 'prop-types';
 
 class LoggedInContainer extends Component {
   componentWillMount() {
-    this.verifyUser();
-  }
-
-  verifyUser() {
-    console.log(this.props.profile._id);
+    console.log(this.props);
   }
 
   render() {
-    console.log(this.props);
     const { component: Profile } = this.props;
 
     return (
-      <Route render={props => (
-        this.props.profile._id.length > 0
-        ? <Profile {...props} />
-        : <Redirect to="/login" />
-       )}
+      <Route render={routeProps => (
+          this.props.profile._id.length > 0
+          ? <Profile {...routeProps} />
+          : <Redirect to="/login" />
+        )}
       />
     );
   }
@@ -39,7 +34,6 @@ const LoggedInConnect = connect(mapStateToProps)(LoggedInContainer);
 export default LoggedInConnect;
 
 LoggedInContainer.defaultProps = {
-  isLoggedIn: false,
   profile: {
     _id: '',
   },
@@ -47,8 +41,14 @@ LoggedInContainer.defaultProps = {
 
 LoggedInContainer.propTypes = {
   component: PropTypes.node.isRequired,
-  isLoggedIn: PropTypes.bool,
   profile: PropTypes.shape({
     _id: PropTypes.string,
   }),
 };
+
+/*
+  isLoggedIn: PropTypes.bool,
+  profile: PropTypes.shape({
+    _id: PropTypes.string,
+  }),
+*/

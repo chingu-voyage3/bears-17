@@ -8,9 +8,13 @@ const UserBar = props => (
   </div>
 );
 
+UserBar.defaultProps = {
+  name: '',
+};
+
 UserBar.propTypes = {
   avatar: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
 };
 
 export default UserBar;

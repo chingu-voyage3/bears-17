@@ -29,6 +29,7 @@ const LoginBox = props => (
           style={buttonStyle}
           className={btn.styles}
           data-button-type={btn.label}
+          key={btn.label}
         >
           {`Sign in with ${btn.label}`}
         </button>

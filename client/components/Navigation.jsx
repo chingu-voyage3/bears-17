@@ -6,13 +6,14 @@ const LINKS = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
   { label: 'Questions', href: '/questions' },
+  { label: 'Ask Question', href: '/create' },
   { label: 'Login', href: '/login' },
   { label: 'Register', href: '/register' },
   { label: 'Profile', href: '/profile' },
   { label: 'Logout', href: '/logout' },
 ];
 
-const loggedInNavs = ['Profile', 'Logout'];
+const loggedInNavs = ['Ask Question', 'Profile', 'Logout'];
 const loggedOutNavs = ['Login', 'Register'];
 
 const linkFilter = (array1, array2) => (
@@ -39,6 +40,10 @@ const Navigation = (props) => {
 
 export default Navigation;
 
+Navigation.defaultProps = {
+  loggedIn: '',
+};
+
 Navigation.propTypes = {
-  loggedIn: PropTypes.bool.isRequired,
+  loggedIn: PropTypes.string,
 };
