@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 
 // components
-import LoginForm from '../Components/LoginForm.jsx';
+import LoginForm from '../components/LoginForm.jsx';
 // import LoginBox from '../Components/LoginBox.jsx';
 
 // actions
@@ -102,10 +102,6 @@ class Login extends Component {
 
     return (
       <div>
-        { /* <LoginBox
-          buttons={this.state.buttons}
-          handleClick={this.handleClick}
-        /> */}
         <LoginForm
           location={this.props.auth}
           handleChange={this.handleChange}
