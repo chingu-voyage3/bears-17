@@ -9,6 +9,10 @@ Joi.objectId = require('eko-joi-objectid')(Joi, ObjectId);
 exports.addAnswer = async (ctx) => {
   const { question_id: questionId } = ctx.answer;
 
+  const newAnswer = ctx.answer;
+  newAnswer.author = ctx.state.user;
+  newAnswer.author.name = ctx.state.user.username;
+
   await Question.findById(questionId)
     .then((res) => {
       if (!res) {
@@ -17,14 +21,15 @@ exports.addAnswer = async (ctx) => {
         };
         return ctx.body;
       }
-      const answer = new Answer(ctx.request.body);
-      ctx.body = answer.save();
+      const answer = new Answer(newAnswer);
+      return answer.save();
+    }).then((res) => {
+      ctx.body = res;
       return ctx.body;
     })
     .catch((err) => {
       ctx.body = {
         err,
-        message: 'Internal DB error, please try again',
       };
       return ctx.body;
     });
@@ -61,8 +66,7 @@ exports.findAnswersById = async (ctx) => {
     ctx.body = { err: `'${sort}' is not a valid value for 'sort'` };
     return ctx.body;
   }
-
-  await Answer.find({ question_id })
+  await Answer.find({ question_id: ObjectId(question_id) })
     .sort({ [sort_by]: sort })
     .skip(skip)
     .limit(limit)

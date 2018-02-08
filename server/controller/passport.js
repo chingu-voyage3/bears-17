@@ -13,26 +13,17 @@ passport.deserializeUser((user, done) => {
 });
 
 passport.use(new LocalStrategy('local', ((username, password, done) => {
-  Auth.findOne({ 'local.name': username }, (err, user) => {
-    if (!user) {
-      return done(null, false);
-    }
-
-    if (!user.validPassword(password)) {
-      return done(null, false);
-    }
-
-    return done(null, user);
-  });
+  Auth.findOne({ 'local.username': username })
+    .then(auth => User.findById(auth._id))
+    .then(user => done(null, user)).catch((err) => done(err));
 })));
 
 passport.use('signup', new LocalStrategy(((username, password, done) => {
-  console.log('REGISERING');
-  Auth.findOne({ 'local.name': username }, (err, user) => {
+  Auth.findOne({ 'local.username': username }, (err, user) => {
     if (!user) {
       const newAuth = new Auth({
         local: {
-          name: username,
+          username,
           password,
         },
       });
@@ -44,7 +35,7 @@ passport.use('signup', new LocalStrategy(((username, password, done) => {
 
         // save a new profile
 
-        const profile = new User({ _id: newAuth._id, name: username });
+        const profile = new User({ _id: newAuth._id, username });
         profile.save((userError) => {
           if (userError) return done(null, false);
           return done(null, profile);
