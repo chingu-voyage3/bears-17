@@ -17,7 +17,7 @@ import LoggedInContainer from 'Containers/LoggedInContainer';
 import Logout from 'Containers/Logout';
 
 
-const RouteContainer = () => (
+const routes = () => (
   <Router>
     <div>
       <Header />
@@ -46,4 +46,4 @@ const RouteContainer = () => (
 
 // const RouteConnect = connect(mapStateToProps)(RouteContainer);
 
-export default RouteContainer;
+export default routes;
