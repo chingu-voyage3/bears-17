@@ -67,10 +67,9 @@ class Question extends Component {
     axios.post('/api/answer', answer)
       .then((res) => {
         const { answers } = this.state;
-        answers.push(res.data);
 
         this.setState({
-          answers,
+          answers: [...answers, res.data],
         });
       });
     this.clearAnswer();
