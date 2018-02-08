@@ -8,14 +8,14 @@ const answerSchema = mongoose.Schema(
     voted_by: Array,
     flagged_by: Array,
     author: {
-      _id: {type: mongoose.Schema.Types.ObjectId, required: true },
-      name: String,
+      _id: { type: mongoose.Schema.Types.ObjectId, required: true },
+      username: String,
       avatar: String,
     },
   },
   {
     timestamps: { createdAt: 'submitted_at', updatedAt: 'updated_at' },
-  }
+  },
 );
 
 const answerModel = mongoose.model('Answer', answerSchema);

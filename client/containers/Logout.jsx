@@ -25,7 +25,7 @@ class Logout extends Component {
   }
 
   render() {
-    if (this.props.profile._id.length > 1) {
+    if (this.props.profile._id) {
       return (
         <div>
           LoggingOut

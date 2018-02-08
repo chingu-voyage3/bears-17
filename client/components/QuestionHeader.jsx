@@ -7,8 +7,12 @@ const QuestionHeader = props => (
   </div>
 );
 
+QuestionHeader.defaultProps = {
+  title: '',
+};
+
 QuestionHeader.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
 };
 
 export default QuestionHeader;

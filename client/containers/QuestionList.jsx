@@ -20,13 +20,11 @@ class QuestionList extends Component {
     fetch('/api/questions/total')
       .then(res => res.json())
       .then((data) => {
-        console.log(data);
         this.setState({ totalQuestions: data });
       });
   }
   getQuestions(page) {
     const url = page ? `/api/questions?page=${page}` : '/api/questions';
-    console.log(page);
     fetch(url)
       .then(res => res.json())
       .then(data => this.setState({ questions: data }));

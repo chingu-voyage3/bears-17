@@ -129,6 +129,7 @@ export default LoginConnect;
 
 Login.defaultProps = {
   profile: {
+    _id: '',
     name: '',
     email: '',
     avatar: '',
@@ -141,12 +142,12 @@ Login.defaultProps = {
 Login.propTypes = {
   auth: PropTypes.string.isRequired,
   profile: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
+    _id: PropTypes.string,
     name: PropTypes.string,
     email: PropTypes.string,
     avatar: PropTypes.string,
     country: PropTypes.string,
-    member_since: PropTypes.instanceOf(Date),
+    member_since: PropTypes.string,
     introduction: PropTypes.string,
   }),
 };

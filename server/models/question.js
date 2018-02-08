@@ -4,11 +4,11 @@ const questionSchema = mongoose.Schema(
   {
     title: { type: String, required: true },
     body: String,
-    votes: {type: Number, default: 0 },
+    votes: { type: Number, default: 0 },
     voted_by: { type: Array, default: [] },
     author: {
+      _id: { type: mongoose.Schema.Types.ObjectId },
       name: { type: String, required: true },
-      avatar: String,
     },
   },
   {

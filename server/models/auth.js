@@ -6,7 +6,7 @@ const SALT_WORK_FACTOR = 10;
 const authSchema = mongoose.Schema(
   {
     local: {
-      name: String,
+      username: String,
       email: String,
       password: String,
     },
