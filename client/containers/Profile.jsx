@@ -80,7 +80,7 @@ class Profile extends Component {
 
   handleToggle(value) {
     this.setState({
-      toggle: this.state.toggle ? '' : value,
+      toggle: value === this.state.toggle ? '' : value,
     });
   }
 
