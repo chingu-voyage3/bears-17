@@ -14,7 +14,7 @@ const UserController = require('./controller/user.js');
 const app = new Koa();
 const router = new Router();
 
-const port = process.env.API_PORT || 3000;
+const port = process.env.PORT || 3000;
 const db =
   process.env.NODE_ENV === 'test' ? process.env.DB_TEST : process.env.DB_URL;
 
