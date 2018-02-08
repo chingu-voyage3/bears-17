@@ -1,7 +1,15 @@
 /* eslint-disable no-console */
 /* eslint-disable no-underscore-dangle */
+/* eslint-disable max-len */
 import React, { Component } from 'react';
 import List from '../components/QuestionList.jsx';
+
+const pageNav = {
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'center',
+  alignItems: 'center',
+};
 
 class QuestionList extends Component {
   constructor(props) {
@@ -33,12 +41,14 @@ class QuestionList extends Component {
   render() {
     const pages = [];
     for (let i = 0; i < this.state.totalQuestions / 10; i += 1) {
-      pages.push(<button key={i} onClick={() => this.getQuestions(i + 1)}>{i + 1}</button>);
+      pages.push(<button className="btn btn--outline btn--primary" key={i} onClick={() => this.getQuestions(i + 1)}>{i + 1}</button>);
     }
     return (
       <div>
         <List questions={this.state.questions} />
-        {pages}
+        <div style={pageNav}>
+          {pages}
+        </div>
       </div>
     );
   }
