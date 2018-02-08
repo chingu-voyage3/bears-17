@@ -13,7 +13,7 @@ const wrapperStyle = {
 };
 
 const divStyle = {
-  width: '75%',
+  width: '100%',
   display: 'flex',
   flexDirection: 'row',
 };
@@ -37,82 +37,64 @@ const cardRight = {
 };
 
 const imgStyle = {
-  minWidth: '60%',
-  width: '65%',
-};
-
-const pointsWrapper = {
-  display: 'flex',
-  width: '100%',
-  borderRadius: '2px',
-};
-
-const point = {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '100%',
-};
-
-const pointContainer = {
-  display: 'flex',
-  flexDirection: 'column',
-  width: '50%',
-  justifyContent: 'center',
-  alignItems: 'center',
-  borderLeft: '1px solid black',
+  minWidth: '40%',
+  width: '45%',
 };
 
 const iconStyle = {
   position: 'relative',
-  left: '-10px',
+  left: '0px',
   top: '5px',
   width: '3em',
   border: '1px solid black',
   borderRadius: '5px',
 };
 
-const ProfileHeader = props => (
-  <div style={wrapperStyle}>
-    <div style={divStyle}>
-      <div className="card-left" style={cardLeft}>
-        <img alt="circular profile" src={props.imageurl} style={imgStyle} />
-      </div>
-      <div className="card-right" style={cardRight}>
-        <h3 style={{ fontWeight: 'strong' }}>{props.name}</h3>
-        <p>{props.intro}</p>
-      </div>
-      <TiCogOutline size={24} style={iconStyle} onClick={() => props.toggleModal()} />
-    </div>
-    <div style={pointContainer}>
-      <h5>Points</h5>
-      <div style={pointsWrapper}>
-        <div style={point}>
-          <h2>Q</h2>
-          <p>42</p>
+const ProfileHeader = (props) => {
+  return (
+    <div style={wrapperStyle}>
+      <div style={divStyle}>
+        <div className="card-left" style={cardLeft}>
+          <img alt="circular profile" src={props.imageurl} style={imgStyle} />
         </div>
-        <div style={point}>
-          <h2>A</h2>
-          <p>13</p>
+        <div className="card-right" style={cardRight}>
+          <h3 style={{ fontWeight: 'strong' }}>{props.profile.username}</h3>
+          <p>{props.profile.introduction}</p>
         </div>
+        <TiCogOutline size={24} style={iconStyle} onClick={() => props.toggleModal()} />
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 ProfileHeader.defaultProps = {
-  name: 'HeyJP',
-  intro: 'its my intro',
   imageurl:
-    'https://cdn3.iconfinder.com/data/icons/complete-set-icons/512/skype2512x512.png',
+      'https://cdn3.iconfinder.com/data/icons/complete-set-icons/512/skype2512x512.png',
+  profile: {
+    _id: '',
+    username: '',
+    name: '',
+    email: '',
+    avatar: '',
+    country: '',
+    member_since: '',
+    introduction: '',
+  },
 };
 
 ProfileHeader.propTypes = {
-  name: PropTypes.string,
-  intro: PropTypes.string,
   imageurl: PropTypes.string,
   toggleModal: PropTypes.func.isRequired,
+  profile: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    username: PropTypes.string,
+    name: PropTypes.string,
+    email: PropTypes.string,
+    avatar: PropTypes.string,
+    country: PropTypes.string,
+    member_since: PropTypes.string,
+    introduction: PropTypes.string,
+  }),
 };
 
 export default ProfileHeader;

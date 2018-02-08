@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Hero = () => (
   <section className="hero">
@@ -8,9 +9,13 @@ const Hero = () => (
         <h2 className="hero__subtitle">... And Get the Job You Want</h2>
       </div>
       <div className="hero__cta">
-        <button className="btn btn--lg btn--success">Click Here to Ask a Question</button>
+        <Link to="/register"className="btn btn--lg btn--success">
+          Register and Start Asking Questions
+        </Link>
         <p>... or just...</p>
-        <button className="btn btn--sm btn--hollow">Browse the Most Popular Answers</button>
+        <Link to="/questions" className="btn btn--sm btn--hollow">
+          Browse the Latest Questions
+        </Link>
       </div>
     </div>
   </section>

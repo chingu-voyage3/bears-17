@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const LINKS = [
   { label: 'Home', href: '/' },
-  { label: 'About', href: '/about' },
+  // { label: 'About', href: '/about' },
   { label: 'Questions', href: '/questions' },
   { label: 'Ask Question', href: '/create' },
   { label: 'Login', href: '/login' },

@@ -134,7 +134,7 @@ exports.vote = async (ctx) => {
   }
 
   await Answer.findOne(
-    { _id: ctx.params.id },
+    { _id: ObjectId(ctx.params.id) },
     '-_id voted_by',
   )
     .then(async (res) => {
