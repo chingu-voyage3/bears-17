@@ -50,22 +50,20 @@ const iconStyle = {
   borderRadius: '5px',
 };
 
-const ProfileHeader = (props) => {
-  return (
-    <div style={wrapperStyle}>
-      <div style={divStyle}>
-        <div className="card-left" style={cardLeft}>
-          <img alt="circular profile" src={props.imageurl} style={imgStyle} />
-        </div>
-        <div className="card-right" style={cardRight}>
-          <h3 style={{ fontWeight: 'strong' }}>{props.profile.username}</h3>
-          <p>{props.profile.introduction}</p>
-        </div>
-        <TiCogOutline size={24} style={iconStyle} onClick={() => props.toggleModal()} />
+const ProfileHeader = props => (
+  <div style={wrapperStyle}>
+    <div style={divStyle}>
+      <div className="card-left" style={cardLeft}>
+        <img alt="circular profile" src={props.imageurl} style={imgStyle} />
       </div>
+      <div className="card-right" style={cardRight}>
+        <h3 style={{ fontWeight: 'strong' }}>{props.profile.username}</h3>
+        <p>{props.profile.introduction}</p>
+      </div>
+      <TiCogOutline size={24} style={iconStyle} onClick={() => props.toggleModal()} />
     </div>
-  );
-};
+  </div>
+);
 
 ProfileHeader.defaultProps = {
   imageurl:
