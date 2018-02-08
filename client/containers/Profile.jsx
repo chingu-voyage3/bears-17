@@ -98,9 +98,7 @@ class Profile extends Component {
       profile[key] === '' && delete profile[key]);
 
     axios.post('/api/user/update-profile', profile)
-      .then((res) => {
-        return res;
-      });
+      .then(res => res);
 
     this.clearProfile();
     this.toggleModal();

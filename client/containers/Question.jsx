@@ -78,9 +78,7 @@ class Question extends Component {
 
   handleVote(answer) {
     axios.post(`/api/answer/${answer}/vote`, { user_id: this.props.profile._id })
-      .then((res) => {
-        return this.updateVote(res.data);
-      });
+      .then(res => this.updateVote(res.data));
   }
 
   updateVote(answer) {
