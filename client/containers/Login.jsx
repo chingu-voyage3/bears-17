@@ -10,25 +10,28 @@ import axios from 'axios';
 
 // components
 import LoginForm from '../Components/LoginForm.jsx';
-import LoginBox from '../Components/LoginBox.jsx';
+// import LoginBox from '../Components/LoginBox.jsx';
 
 // actions
 import { setUser } from '../actions/user.js';
 
-const buttonArray = [
-  {
-    label: 'Twitter',
-    styles: 'btn btn--twitter',
-  },
-  {
-    label: 'Facebook',
-    styles: 'btn btn--facebook',
-  },
-  {
-    label: 'Google',
-    styles: 'btn btn--google',
-  },
-];
+/*
+  const buttonArray = [
+    {
+      label: 'Twitter',
+      styles: 'btn btn--twitter',
+    },
+    {
+      label: 'Facebook',
+      styles: 'btn btn--facebook',
+    },
+    {
+      label: 'Google',
+      styles: 'btn btn--google',
+    },
+  ];
+
+*/
 
 class Login extends Component {
   constructor(props) {
@@ -37,7 +40,7 @@ class Login extends Component {
     this.state = {
       name: '',
       password: '',
-      buttons: buttonArray,
+      // buttons: buttonArray,
       navigate: '',
     };
 
@@ -99,10 +102,10 @@ class Login extends Component {
 
     return (
       <div>
-        <LoginBox
+        { /* <LoginBox
           buttons={this.state.buttons}
           handleClick={this.handleClick}
-        />
+        /> */}
         <LoginForm
           location={this.props.auth}
           handleChange={this.handleChange}

@@ -99,7 +99,6 @@ class Profile extends Component {
 
     axios.post('/api/user/update-profile', profile)
       .then((res) => {
-        console.log(res, 'this is res');
         return res;
       });
 
@@ -121,7 +120,7 @@ class Profile extends Component {
 
     return (
       <div>
-        <ProfileHeader toggleModal={this.toggleModal} />
+        <ProfileHeader toggleModal={this.toggleModal} profile={this.props.profile} />
         <ProfileBody
           handleToggle={this.handleToggle}
           questions={this.state.questions}
