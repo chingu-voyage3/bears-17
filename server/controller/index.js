@@ -1,11 +1,24 @@
+const { ObjectId } = require('mongoose').Types;
+
 const Question = require('../models/question.js');
 
 exports.addQuestion = async (ctx) => {
   const question = ctx.request.body;
 
+  if (!ctx.state.user) {
+    ctx.body = { success: false, message: 'Not logged in' };
+    return ctx.body;
+  }
+  const author = {
+    _id: ObjectId(ctx.state.user._id),
+    name: ctx.state.user.username,
+  };
+
+  question.author = author;
+
   const newQuestion = new Question(question);
 
-  newQuestion.save((err) => {
+  await newQuestion.save((err) => {
     if (err) {
       console.error(err);
       return err;
@@ -14,7 +27,7 @@ exports.addQuestion = async (ctx) => {
     return true;
   });
 
-  ctx.body = 'New Question Added';
+  ctx.body = { success: true, message: 'New Question Added' };
   return ctx.body;
 };
 
@@ -35,6 +48,12 @@ exports.getQuestions = async (ctx) => {
       ctx.body = res;
       return ctx.body;
     });
+};
+
+exports.findQuestionsByUser = async (ctx) => {
+  const questions = await Question.find({ 'author._id': ObjectId(ctx.params.id) });
+  ctx.body = questions;
+  return ctx.body;
 };
 
 exports.getRandomQuestions = async (ctx) => {
@@ -134,7 +153,6 @@ exports.vote = async (ctx) => {
 };
 
 exports.totalQuestions = async (ctx) => {
-  console.log('RUNNING');
   const count = await Question.count()
     .then(res => res);
   ctx.body = count;

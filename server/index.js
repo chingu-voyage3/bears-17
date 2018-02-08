@@ -27,31 +27,27 @@ app.use(bodyParser());
 app.use(passport.initialize());
 app.use(passport.session());
 
-const localAuth = async (ctx) => {
-  return passport.authenticate('local', (err, user, info, status) => {
-    if (err) return err;
-    if (user === false) {
-      ctx.body = { success: false };
-      return ctx.body;
-    }
-    ctx.login(user);
-    ctx.body = { success: true, user };
+const localAuth = async ctx => passport.authenticate('local', (err, user, info, status) => {
+  if (err) return err;
+  if (user === false) {
+    ctx.body = { success: false };
     return ctx.body;
-  })(ctx);
-};
+  }
+  ctx.login(user);
+  ctx.body = { success: true, user };
+  return ctx.body;
+})(ctx);
 
-const localReg = async (ctx) => {
-  return passport.authenticate('signup', (err, user, info, status) => {
-    if (err) return err;
-    if (user === false) {
-      ctx.body = { success: false };
-      return ctx.body;
-    }
-    ctx.login(user);
-    ctx.body = { success: true, user };
+const localReg = async ctx => passport.authenticate('signup', (err, user, info, status) => {
+  if (err) return err;
+  if (user === false) {
+    ctx.body = { success: false };
     return ctx.body;
-  })(ctx);
-};
+  }
+  ctx.login(user);
+  ctx.body = { success: true, user };
+  return ctx.body;
+})(ctx);
 // Promise Library for mongoose
 mongoose.Promise = require('bluebird');
 
@@ -74,6 +70,7 @@ router
   .get('/api/questions', QuestionController.getQuestions)
   .post('/api/post/question', QuestionController.addQuestion)
   .get('/api/questions/random/:limit?', QuestionController.getRandomQuestions)
+  .get('/api/questions/user/:id', QuestionController.findQuestionsByUser)
   .get('/api/question/:id', QuestionController.getId)
   .post('/api/question/:id/vote', QuestionController.vote)
   .get('/api/answers/:id', AnswerController.findAnswersById)
@@ -85,7 +82,7 @@ router
   )
   .post('/api/answer/:id/flag', AnswerController.flag)
   .post('/api/answer/:id/vote', AnswerController.vote)
-  .get('/api/questions/total', QuestionController.totalQuestions);
+  .get('/api/questions/total', QuestionController.totalQuestions)
   .post('/api/user/update-profile', UserController.updateProfile)
   .post('/api/questions/:id/spam', QuestionController.markSpam)
   .post('/api/login', localAuth)
@@ -97,18 +94,21 @@ router
   })
   .get(
     '/api/auth/google',
-    passport.authenticate('google', { scope: 'https://www.googleapis.com/auth/userinfo.profile' }),
+    passport.authenticate('google', {
+      scope: 'https://www.googleapis.com/auth/userinfo.profile',
+    }),
   )
-  .get('/api/auth/google/callback', ctx => passport.authenticate('google', (err, user, info) => {
-    if (err) return err;
-    if (user === false) {
-      ctx.body = { success: false };
+  .get('/api/auth/google/callback', ctx =>
+    passport.authenticate('google', (err, user, info) => {
+      if (err) return err;
+      if (user === false) {
+        ctx.body = { success: false };
+        return ctx.body;
+      }
+      ctx.login(user);
+      ctx.body = { success: true, user };
       return ctx.body;
-    }
-    ctx.login(user);
-    ctx.body = { success: true, user };
-    return ctx.body;
-  })(ctx))
+    })(ctx) )
   .get('*', async (ctx) => {
     await send(ctx, './dist/index.html');
   });
