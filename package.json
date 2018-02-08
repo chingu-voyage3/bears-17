@@ -10,7 +10,7 @@
     "dev:server": "nodemon -r dotenv/config ./server/index.js",
     "start": "node -r dotenv/config ./server/index.js",
     "test": "cross-env NODE_ENV=test jest --watchAll",
-    "heroku-postbuild": "webpack -p --config ./webpack.prod.config.js --progress"
+    "heroku-postbuild": "cross-env NODE_ENV=production webpack -p"
   },
   "engines": {
     "node": ">=8.9.0",
